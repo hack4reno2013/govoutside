@@ -118,6 +118,10 @@ class Users extends govOutSide {
 		return true;
 	}
 	
+	function apiGeneration($data) {
+		return base64_encode($data['email'].':'.$data['first_name'].'__'.$data['last_name'].':'.rand(999,9999));	
+	}
+	
 	function handleRegister() {
 		$data = $_POST;
 		//validate
@@ -129,8 +133,24 @@ class Users extends govOutSide {
 		//lets check if the user email is already in the database
 		$checkEmail = $this->checkIsEmail($data['email']);
 		if($checkEmail == false){
-			return array( 'That email is already registered!');
+			return array( 'error' => array('That email is already registered!'));
 		}
+		// create api_key
+		$data['api_key'] = $this->apiGeneration($data);
+		
+		print_r($data);
+		//save data
+		$query = 'INSERT INTO users (org,first_name,last_name,email,password,active,api_key) VALUES (
+			"'.$data['org'].'",
+			"'.$data['first_name'].'",
+			"'.$data['last_name'].'",
+			"'.$data['email'].'",
+			"'.$data['password'].'",
+			"1",
+			"'.$data['api_key'].'"
+		)';
+		
+		$results = mysql_query($query)or die(mysql_error());
 		
 	}
 	

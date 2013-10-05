@@ -18,4 +18,5 @@ $requstedTemplate = $_GET['view'];
 	}
 }
 
+
 $template = $core->renderTemplate($currentTemplate);

@@ -42,7 +42,7 @@ class Users extends govOutSide {
 		//check if they are logged in and route them out of here!
 		if(!empty($this->user['uid'])){
 			$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You are logged in already. You can logout by clicking this message</a>';
-			header('Location: '. $this->config['base_url']);
+			die('<script> window.location = window.location; </script>');
 		}
 		
 		$action = 'login';
@@ -96,7 +96,7 @@ class Users extends govOutSide {
 				$_SESSION['user']['uid'] = $this->user['uid'];
 				$_SESSION['user']['email'] = $this->user['email'];
 				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">Thank you for logging in! You can logout by clicking this message if you want...</a>';
-				header('Location: '. $this->config['base_url']);
+				die('<script> window.location = window.location; </script>');
 			}
 		}else{
 			return array( 'error' => array( 'You left a field blank...') );	
@@ -186,7 +186,7 @@ class Users extends govOutSide {
 		)';
 		
 		$results = mysql_query($query)or die(mysql_error());
-		header('Location: '. $this->config['base_url'].'?view=users&action=login');
+		die('<script> window.location = "'. $this->config['base_url'].'?view=users&action=login"; </script>');
 		
 	}
 	

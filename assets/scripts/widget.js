@@ -1,14 +1,20 @@
 var govOutsideWidget = {};
 (function() {
 
-	this.scriptUrl = '';
+	thisApp = this;
+
 	this.target = document.getElementById('go-root');
 	this.map = null;
 	this.markers = [];
 	this.mapData = null;
+	this.locations = null;
+
 	this.widgetContainer = null;
 	this.mapContainer = null;
 	this.sidebarContainer = null;
+	this.locationsList = null;
+	this.topbarContainer = null;
+
 	this.stylesLoaded = false;
 
 	this.init = function() {
@@ -103,22 +109,29 @@ var govOutsideWidget = {};
 		var stylesTimer = setInterval(function() {
 			if(that.stylesLoaded) {
 				clearInterval(stylesTimer);
-				widgetContainer = that.appendElement('div', 'm-go-widget h-group', that.target);
-				mapContainer = that.appendElement('div', 'm-go-map', widgetContainer);
-				sidebarContainer = that.appendElement('div', 'm-go-sidebar', widgetContainer);
+
+				that.widgetContainer = that.appendElement('div', 'm-go-widget h-group', that.target);
+				that.topbarContainer = that.appendElement('div', 'm-go-topbar', that.widgetContainer);
+				that.mapContainer = that.appendElement('div', 'm-go-map', that.widgetContainer);
+				that.sidebarContainer = that.appendElement('div', 'm-go-sidebar', that.widgetContainer);
+				that.locationsList = that.appendElement('ul', '', that.sidebarContainer);
+
 				var initOptions = that.getInitOptions();
-				that.map = new google.maps.Map(mapContainer, initOptions);
+				that.map = new google.maps.Map(that.mapContainer, initOptions);
+				that.locations = that.getLocations();
 				that.plotLocations();
+				that.populateSidebar();
 			}
 		}, 20);
 		
 	}
 
 	this.plotLocations = function() {
-		var locations = this.getLocations();
 		var i = 0;
+		var locations = this.locations;
 		var num_locations = locations.length;
 		var bounds = new google.maps.LatLngBounds();
+		var that = this;
 		while(i < num_locations) {
 			var location = locations[i];
 			var latlng = this.getLatLngObject(location.lat, location.lng);
@@ -127,15 +140,42 @@ var govOutsideWidget = {};
 				position: latlng,
 				map: this.map,
 				title: location.title
+
 			});
+			marker.location_index = i;
 			this.markers.push(marker);
+
+			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+				return function() {
+					that.onLocationClick(i);
+				}
+			})(marker, i));
+
 			i++;
 		}
 		this.map.fitBounds(bounds);
 		this.map.panToBounds(bounds);
 	}
 
-	this.appendElement = function(elementType, elementClass, elementParent) {
+	this.populateSidebar = function() {
+		var i = 0;
+		var locations = this.locations;
+		var num_locations = locations.length;
+		var that = this;
+		while(i < num_locations) {
+			var location = locations[i];
+			var attributes = {
+				'data-location-index': i
+			};
+			var element = this.appendElement('li', '', this.locationsList, locations[i].title, attributes);
+			element.onclick = function (event) {
+				that.onLocationClick(this.getAttribute('data-location-index'));
+			};
+			i++;
+		}
+	}
+
+	this.appendElement = function(elementType, elementClass, elementParent, innerHtml, attributes) {
 		if(typeof elementType == 'undefined') {
 			elementType = 'div';
 		}
@@ -148,9 +188,62 @@ var govOutsideWidget = {};
 		if(typeof elementParent !== 'undefined') {
 			elementParent.appendChild(element);
 		}
-		console.log(element);
+		if(typeof innerHtml !== 'undefined') {
+			element.innerHTML = innerHtml;
+		}
+		if(typeof attributes == 'object') {
+			for(var key in attributes) {
+				element.setAttribute(key, attributes[key]);
+			}
+		}
 		return element;
 
+	}
+
+	this.onLocationClick = function(location_index) {
+		this.setSidebarLocationActive(location_index);
+		this.setMapLocationActive(location_index);
+	}
+
+	this.setSidebarLocationActive = function(location_index) {
+		location_index = String(location_index);
+		for(var i = 0; i < this.locationsList.childNodes.length; i++) {
+			var element = this.locationsList.childNodes[i];
+			var element_location_index = element.getAttribute('data-location-index');
+			if(element_location_index === location_index) {
+				this.addClass(element, 'active');
+			}
+			else {
+				this.removeClass(element, 'active');
+			}
+		}
+	}
+
+	this.setMapLocationActive = function(location_index) {
+		for(var i = 0; i < this.markers.length; i++) {
+			var marker = this.markers[i];
+			if(marker.location_index == location_index) {
+				this.map.panTo(marker.position);
+			}
+		}
+	}
+
+	this.hasClass = function(element, className) {
+		return new RegExp(' ' + className + ' ').test(' ' + element.className + ' ');
+	}
+
+	this.addClass = function(element, className) {
+		element.className += ' ' + className;
+	}
+
+	this.removeClass = function(element, className) {
+		var newClass = ' ' + element.className.replace( /[\t\r\n]/g, ' ') + ' ';
+		if (this.hasClass(element, className)) {
+			while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
+				newClass = newClass.replace(' ' + className + ' ', ' ');
+			}
+			element.className = newClass.replace(/^\s+|\s+$/g, '');
+		}
 	}
 
 }).apply(govOutsideWidget);

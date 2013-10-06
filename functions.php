@@ -14,12 +14,12 @@ class govOutSide {
 	private function db_connect() {
 		$config = config();
 		
-		$link = mysql_connect($config['db']['host'], $config['db']['username'], $config['db']['password'] = '');
+		$link = mysql_connect($config['db']['host'], $config['db']['username'], $config['db']['password']);
 		if (!$link) {
 			die('Could not connect: ' . mysql_error());
 		}
 		
-		$db_selected = mysql_select_db('govoutside', $link);
+		$db_selected = mysql_select_db('govdb', $link);
 		if (!$db_selected) {
 			die ('Mysql Error: ' . mysql_error());
 		}	

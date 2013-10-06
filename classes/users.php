@@ -95,6 +95,7 @@ class Users extends govOutSide {
 				// start login process.
 				$_SESSION['user']['uid'] = $this->user['uid'];
 				$_SESSION['user']['email'] = $this->user['email'];
+				$_SESSION['user']['api_key'] = $this->user['api_key'];
 				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">Thank you for logging in! You can logout by clicking this message if you want...</a>';
 				die('<script> window.location = window.location; </script>');
 			}

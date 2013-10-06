@@ -11,7 +11,7 @@ class System extends govOutSide {
 		return true;	
 	}
 	
-	function getCategories() {
+	public function getCategories() {
 		$query = 'SELECT * FROM categories WHERE `uid` = "'.$this->user_id.'"';
 		$results = mysql_query($query)or die(mysql_error());
 		

@@ -16,24 +16,29 @@ class Ajax extends govOutSide {
 		$data = $_GET;
 		$result = array();
 		$user = $this->registered_classes['Users']->user;
-		
-		if($data['api_key'] !== $user['api_key']){
-			$result = array( 'Status' => 'Error: Keys do not match...' );
+		if(isset($data['api_key'])){
+			if($data['api_key'] !== $user['api_key']){
+				$result = array( 'Status' => 'Error: Keys do not match...' );
+			}else{
+				//build out categories
+				$categories = $this->registered_classes['System']->getCategories();
+				print_r($this->registered_classes['System']->getCategories());
+				$result['init']['zoom'] = 8;
+				$result['init']['center']['lat'] = 8;
+				$result['init']['center']['lng'] = 8;
+	
+				$result['categories']['slug'] = 8;
+				$result['categories']['title'] = 8;
+				$result['categories']['color'] = 8;
+	
+				$result['locations']['title'] = 8;
+				$result['locations']['lat'] = 8;
+				$result['locations']['lng'] = 8;
+				$result['locations']['desc'] = 8;
+				$result['locations']['category'] = 8;
+			}
 		}else{
-			//build out categories
-			$result['init']['zoom'] = 8;
-			$result['init']['center']['lat'] = 8;
-			$result['init']['center']['lng'] = 8;
-
-			$result['categories']['slug'] = 8;
-			$result['categories']['title'] = 8;
-			$result['categories']['color'] = 8;
-
-			$result['locations']['title'] = 8;
-			$result['locations']['lat'] = 8;
-			$result['locations']['lng'] = 8;
-			$result['locations']['desc'] = 8;
-			$result['locations']['category'] = 8;
+			$result = array( 'Status' => 'Error: No api key given' );	
 		}
 		header('Content-Type: application/json');
 		echo json_encode($result);

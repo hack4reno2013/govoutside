@@ -157,7 +157,7 @@ class Users extends govOutSide {
 	}
 	
 	function apiGeneration($data) {
-		return base64_encode($data['email'].':'.$data['first_name'].'__'.$data['last_name'].':'.rand(999,9999));	
+		return str_replace('=','',base64_encode($data['email'].':'.$data['first_name'].'__'.$data['last_name'].':'.rand(999,9999)));	
 	}
 	
 	function handleRegister() {

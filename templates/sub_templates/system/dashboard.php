@@ -41,6 +41,7 @@
         <td width="30%" style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
         <td width="30%" ><?=$location['name']?></td>
         <td width="30%" ><?=$location['address']?></td>
+        <td width="10%" ><a href="?view=system&type=location&id=<?=$location['lid']?>">Edit</a> <a href="?view=system&type=location&id=<?=$location['lid']?>">Delete</a></td>
     </tr>
     <?php
 	}

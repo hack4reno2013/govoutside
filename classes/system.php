@@ -59,7 +59,7 @@ class System extends govOutSide {
 	
 	function formMediator($form_fields, $type){
 		$output = '<form id="register_form" name="'.$type.'_form" method="post">';
-		$output.= '<h2>'.ucwords($type).'</h2>';
+		//$output.= '<h2>'.ucwords($type).'</h2>';
 		$output.= '<div class="form_container" id="users-register">';
 			$output.= parent::formOutput($form_fields);
 			

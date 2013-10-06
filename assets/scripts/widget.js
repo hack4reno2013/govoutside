@@ -53,7 +53,7 @@ var govOutsideWidget = {};
 		stylesheet.type = 'text/css';
 		stylesheet.async = true;
 		stylesheet.rel = 'stylesheet';
-		stylesheet.href = 'assets/styles/widget.css';
+		stylesheet.href = '//' + this.host + '/assets/styles/widget.css';
 		stylesheet.onload = function() {
 			that.stylesLoaded = true;
 		};
@@ -86,7 +86,7 @@ var govOutsideWidget = {};
 				}
 			}
 		}
-		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php?api_key=' + this.api_key, true);
+		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php?view=ajax&api_key=' + this.api_key, true);
 		xmlhttp.send();
 	}
 

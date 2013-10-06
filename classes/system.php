@@ -157,6 +157,11 @@ class System extends govOutSide {
 		include(dirname(__FILE__) . '/../templates/sub_templates/system/dashboard.php');
 	}
 	
+	function ajax() {
+		
+		die();
+	}
+	
 	function handleCategoryInput($data) {
 		$query = 'REPLACE INTO categories (catid, uid,label,color) VALUES (
 			"'.$data['catid'].'",
@@ -169,7 +174,7 @@ class System extends govOutSide {
 	}
 
 	function handleLocationInput($data) {
-		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,city,state,zip,lat,lon,type,active) VALUES (
+		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,lat,lon,type,active) VALUES (
 			"'.$data['lid'].'",
 			"'.$data['uid'].'",
 			"'.$data['catid'].'",
@@ -177,9 +182,6 @@ class System extends govOutSide {
 			"'.$data['parentid'].'",
 			"'.$data['name'].'",
 			"'.$data['address'].'",
-			"'.$data['city'].'",
-			"'.$data['state'].'",
-			"'.$data['zip'].'",
 			"'.$data['lat'].'",
 			"'.$data['lon'].'",
 			"'.$data['type'].'",

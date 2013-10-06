@@ -21,7 +21,7 @@
         }
         foreach($categories as $category){
         ?>
-        <div class="category" style="background-color:<?=$category['color']?>;" data-id="<?=$category['catid']?>"><?=$category['label']?></div>
+        <div class="category" style="background-color:<?=$category['color']?>;" data-color='<?=$category['color']?>' data-label='<?=$category['label']?>' data-id="<?=$category['catid']?>"><?=$category['label']?></div>
         <?php
         }
         ?>

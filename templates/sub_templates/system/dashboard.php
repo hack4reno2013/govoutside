@@ -35,17 +35,15 @@
     <table id="locations-table">
     <?php
     $locations = $this->getLocations();
-    if($locations){
     foreach($locations as $location){
     ?>
-    <tr>
-        <td style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
-        <td><?=$location['name']?></td>
-        <td><?=$location['address']?></td>
+    <tr align="center">
+        <td width="30%" style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
+        <td width="30%" ><?=$location['name']?></td>
+        <td width="30%" ><?=$location['address']?></td>
     </tr>
     <?php
-    }
-    }
+	}
     ?>
     </table>
     <h3>Add Location</h3>

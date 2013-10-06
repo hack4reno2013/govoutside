@@ -22,10 +22,10 @@
 				label = $(this).data('label'),
 				id = $(this).data('id');
 				
-				$('#users-register #field_1').val(label);
-				$('#users-register #color').val(color);
-				$('#users-register #field_3').val(id);
-				
+				$('#categories_form #field_1').val(label);
+				$('#categories_form #color').val(color);
+				$('#categories_form #field_3').val(id);
+				$('#categories_form .submit').val('Edit');
 		});
 	}
 )(jQuery);

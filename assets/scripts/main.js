@@ -18,6 +18,7 @@
 		});
 		
 		$('.category').click(function(){
+			$('#categories_form .button.delete').remove();
 				var color = $(this).data('color'),
 				label = $(this).data('label'),
 				id = $(this).data('id');
@@ -26,11 +27,7 @@
 				$('#categories_form #color').val(color);
 				$('#categories_form #field_3').val(id);
 				$('#categories_form .submit').val('Edit');
-				if(!$('#categories_form .button.delete')){
-					$('#categories_form .submit').after('<a class="button delete" href="?view=system&type=category&id='+id+'&delete=true">Delete</a>');
-				}else{
-					$('#categories_form .button.delete').attr('href','?view=system&type=category&id='+id+'&delete=true');
-				}
+				$('#categories_form .submit').after('<a class="button delete" href="?view=system&type=category&id='+id+'&delete=true">Delete</a>');
 		});
 	}
 )(jQuery);

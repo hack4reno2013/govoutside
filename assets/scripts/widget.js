@@ -5,7 +5,7 @@ var govOutsideWidget = {};
 
 	this.api_key = null;
 
-	this.host = location.host;
+	this.host = 'govoutside.com';
 	this.target = document.getElementById('go-root');
 	this.endpoint = null;
 	this.map = null;

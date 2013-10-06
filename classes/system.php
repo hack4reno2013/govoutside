@@ -121,6 +121,7 @@ class System extends govOutSide {
 		$output.= '<div class="form_container" id="users-register">';
 		
 			$output.= parent::formOutput($form_fields);
+			if($type=='location')
 			$output.= '<button class="button rwmb-map-goto-address-button" type="button" value="address-input">Find Address</button>';
 		$output.= '<input type="hidden" name="type" class="type" value="'.$type.'" />';
 		$output.= '<input type="submit" class="submit" value="Submit" />';

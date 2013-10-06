@@ -1,6 +1,6 @@
 <?php
 
-$users_core = $registered_classes['Users'];
+$users_core = $this->registered_classes['Users'];
 $action = 'Login';
 	if(isset($_GET['action']))
 	$action = $_GET['action'];

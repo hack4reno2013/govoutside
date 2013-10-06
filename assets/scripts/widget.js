@@ -124,7 +124,7 @@ var govOutsideWidget = {};
 	}
 
 	this.getColors = function() {
-		if(typeof this.categories == 'object' && this.mapData.categories.length > 0) {
+		if(typeof this.categories == 'object' && this.categories.length > 0) {
 			colors = {};
 			for(var i = 0; i < this.categories.length; i++) {
 				colors[this.categories[i].slug] = this.categories[i].color;

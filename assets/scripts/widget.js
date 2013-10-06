@@ -108,7 +108,8 @@ var govOutsideWidget = {};
 			var defaultCategories = [
 				{
 					'slug': 'all',
-					'title': 'All'
+					'title': 'All',
+					'color': '#3d62a6'
 				}
 			];
 
@@ -201,13 +202,15 @@ var govOutsideWidget = {};
 		for(var i = 0; i < this.categories.length; i++) {
 			var category = this.categories[i];
 			var attributes = {
-				'data-category': category.slug
+				'data-category': category.slug,
+				'style': 'background-color: ' + category.color + '; border-color: ' + category.color
 			};
 			var elementClass = '';
 			if(category.slug == 'all') {
 				elementClass = 'active';
 			}
 			var element = this.appendElement('li', elementClass, this.categoriesList, category.title, attributes);
+			var arrow = this.appendElement('div', 'arrow', element);
 			element.onclick = function(event) {
 				that.onCategoryClick(this.getAttribute('data-category'));
 			};

@@ -11,11 +11,13 @@ $output = array(
 	'categories' => array(
 		array(
 			'slug' => 'parks',
-			'title' => 'Parks'
+			'title' => 'Parks',
+			'color' => '#3ba672'
 		),
 		array(
 			'slug' => 'trails',
-			'title' => 'Trails'
+			'title' => 'Trails',
+			'color' => '#a67a3d'
 		)
 	),
 	'locations' => array(

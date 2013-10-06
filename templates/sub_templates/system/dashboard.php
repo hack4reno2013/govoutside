@@ -10,21 +10,15 @@
 
 ?>
 <div id="edit-wrapper">
-    <h2>Cateogries</h2>
+    <h2>Step 1: Add Cateogries</h2>
     <div id="categories-area">
         <?php
         $categories = $this->getCategories();
-        if($categories == false){
+        foreach($categories as $category){
         ?>
-        <div>To start please create at least one category</div>
+        <div class="category" style="background-color:<?=$category['color']?>;" data-color='<?=$category['color']?>' data-label='<?=$category['label']?>' data-id="<?=$category['catid']?>"><?=$category['label']?></div>
         <?php
-        }else{
-			foreach($categories as $category){
-			?>
-			<div class="category" style="background-color:<?=$category['color']?>;" data-color='<?=$category['color']?>' data-label='<?=$category['label']?>' data-id="<?=$category['catid']?>"><?=$category['label']?></div>
-			<?php
-			}
-		}
+        }
         ?>
     </div>
     <h3>Add Category</h3>
@@ -34,11 +28,13 @@
         echo $this->formMediator($categories_form_fields, 'categories');
         ?>
     </div>
-    <h2>Locations</h2>
+    <?php
+        if($categories){
+    ?>
+    <h2>Step 2: Add Locations</h2>
     <table id="locations-table">
     <?php
     $locations = $this->getLocations();
-    if($locations){
     foreach($locations as $location){
     ?>
     <tr align="center">
@@ -47,17 +43,9 @@
         <td width="30%" ><?=$location['address']?></td>
     </tr>
     <?php
-    }
-    }else{
-		?>
-        You have no locations registered. You may need to add a category if you haven't already!
-        <?php	
 	}
     ?>
     </table>
-    <?php
-        if($categories){
-    ?>
     <h3>Add Location</h3>
     <div id="locations-edit-area" class="rwmb-map-field">
         <div id="location-map-area">
@@ -77,5 +65,28 @@
     <?php
         }
     ?>
+    <?php
+        if($locations){
+    ?>
+    <h2>Step 3: Get the Code</h2>
+    <textarea style=" width: 450px; height: 300px;">
+<div id="go-root"></div>
+<script type="text/javascript">
+(function(d, script) {
+    var api_key = '<?=$this->registered_classes['Users']->user['api_key']?>';
+    script = d.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.onload = function(){
+        govOutsideWidget.init(api_key);
+    };
+    script.src = 'http://govoutside.com/assets/scripts/widget.js';
+    d.getElementsByTagName('head')[0].appendChild(script);
+}(document));
+</script>
+    </textarea>
 </div>
+    <?php
+        }
+    ?>
 		<script type="text/javascript" src="assets/scripts/main.js"></script>

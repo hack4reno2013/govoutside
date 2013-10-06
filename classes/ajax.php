@@ -68,8 +68,6 @@ class Ajax extends govOutSide {
 				$locations = $this->getLocations();
 				
 				$result['init']['zoom'] = 8;
-				$result['init']['center']['lat'] = 8;
-				$result['init']['center']['lng'] = 8;
 				if($categories && count($categories)>0){
 					$i = 0;
 					foreach($categories as $category){
@@ -85,14 +83,20 @@ class Ajax extends govOutSide {
 				
 				if($locations && count($locations)>0){
 					$i=0;
+					$average_lat = 0;
+					$average_lng = 0;
 					foreach($locations as $location){
 						$result['locations'][$i]['title'] = $location['name'];
 						$result['locations'][$i]['lat'] = $location['lat'];
+						$average_lat = $location['lat'] + $average_lat;
 						$result['locations'][$i]['lng'] = $location['lon'];
+						$average_lng = $location['lon'] + $average_lng;
 						$result['locations'][$i]['desc'] = $location['address'];
 						$result['locations'][$i]['category'] = $location['label'];
 						$i++;
 					}
+				$result['init']['center']['lat'] = $average_lat/count($locations);
+				$result['init']['center']['lng'] = $average_lng/count($locations);
 				}
 				else {
 					$result['locations'] = array();

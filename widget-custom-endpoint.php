@@ -5,7 +5,7 @@
 		<script type="text/javascript">
 
 		(function(d, script) {
-			var api_key = 'am9zaC5rb2JlcnN0ZWluQGdtYWlsLmNvbTpKb3NoX19Lb2JlcnN0ZWluOjM4OTg=';
+			var api_key = 'ZGF3c29uQGRhd3NvbmxvdWRvbi5jb206RGF3c29uX19Mb3Vkb246NTU3Mw==';
 			var endpoint = '//' + location.host + '/?view=ajax&api_key=' + api_key
 			script = d.createElement('script');
 			script.type = 'text/javascript';

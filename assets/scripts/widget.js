@@ -92,7 +92,7 @@ var govOutsideWidget = {};
 			}
 		}
 
-		var endpoint = '//' + location.host + '/?view=ajax&api_key=' + this.api_key;
+		var endpoint = '//' + this.host + '/?view=ajax&api_key=' + this.api_key;
 		if(this.endpoint !== null) {
 			endpoint = this.endpoint;
 		}

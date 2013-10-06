@@ -88,7 +88,6 @@
 			});
 			window.google.maps.event.addListener(this.marker, 'drag', function (event)
 			{
-				alert('test');
 				that.updatePositionInput(event.latLng);
 			});
 		}

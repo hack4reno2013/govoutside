@@ -97,14 +97,14 @@ class govOutSide {
 			if(isset($field['class'])){
 				$customClass = $field['class'];	
 			}
-				if($field['type']!=='textarea' || $field['type']!=='select'){
+				if($field['type']!=='textarea' && $field['type']!=='select'){
 					$output.= '<div class="input-container">';
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
 						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="'.$value.'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input" />';
 					$output.= '</div>';
-				}
+				}else
 				if($field['type']=='select'){
 					$output.= '<div class="input-container">';
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
@@ -112,7 +112,7 @@ class govOutSide {
 						$output.= '</label>';
 						$output.= '<select name="'.$field['name'].'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input">';
 							$output.= '<option value="0">'.$field['first_option'].'</option>';
-							if(count($field['options'])){
+							if(count($field['options'])>0){
 								foreach($field['options'] as $option){
 									$output.= '<option value="'.$option['catid'].'">'.$option['label'].'</option>';	
 								}
@@ -137,7 +137,7 @@ class govOutSide {
 		$classes = $this->getClasses();
 		$i=0;
 		foreach($classes as $class){
-			include_once('classes/'.$class['file']);	
+			include_once(dirname(__FILE__) .'/classes/'.$class['file']);	
 		}
 	}
 	
@@ -198,7 +198,7 @@ class govOutSide {
 		//first include the main template
 		if(isset($templateInfo['before'])){
 			foreach($templateInfo['before'] as $before){
-				include('templates/'.$before);
+				include(dirname(__FILE__) .'/templates/'.$before);
 			}
 		}
 		
@@ -207,11 +207,11 @@ class govOutSide {
 			$this->messages = $this->handleMessages();
 		}
 		
-		include('templates/'.$templateInfo['file']);
+		include(dirname(__FILE__) .'/templates/'.$templateInfo['file']);
 		
 		if(isset($templateInfo['after'])){
 			foreach($templateInfo['after'] as $after){
-				include('templates/'.$after);
+				include(dirname(__FILE__) .'/templates/'.$after);
 			}
 		}
 	}

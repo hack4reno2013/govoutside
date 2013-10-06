@@ -140,7 +140,7 @@ class Users extends govOutSide {
 	function logout() {
 				$_SESSION['user'] = '';
 				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You have now logged out! Please come back soon.</a>';
-				header('Location: '. $this->config['base_url']);
+				die('<script> window.location = window.location; </script>');
 	}
 	
 	function checkIsEmail($requestEmail) {

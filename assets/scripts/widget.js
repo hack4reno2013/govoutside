@@ -5,7 +5,7 @@ var govOutsideWidget = {};
 
 	this.api_key = null;
 
-	this.host = location.host;
+	this.host = 'govoutside.com';
 	this.target = document.getElementById('go-root');
 	this.endpoint = null;
 	this.map = null;
@@ -92,7 +92,7 @@ var govOutsideWidget = {};
 			}
 		}
 
-		var endpoint = '//' + location.host + '/?view=ajax&api_key=' + this.api_key;
+		var endpoint = '//' + this.host + '/?view=ajax&api_key=' + this.api_key;
 		if(this.endpoint !== null) {
 			endpoint = this.endpoint;
 		}

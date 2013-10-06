@@ -105,6 +105,7 @@ class Ajax extends govOutSide {
 		}else{
 			$result = array( 'Status' => 'Error: No api key given' );	
 		}
+		header('Access-Control-Allow-Origin: *');
 		header('Content-Type: application/json');
 		echo json_encode($result);
 		die;

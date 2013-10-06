@@ -8,12 +8,14 @@ var govOutsideWidget = {};
 	this.markers = [];
 	this.mapData = null;
 	this.locations = null;
+	this.categories = null;
 
 	this.widgetContainer = null;
 	this.mapContainer = null;
 	this.sidebarContainer = null;
 	this.locationsList = null;
 	this.topbarContainer = null;
+	this.categoriesList = null;
 
 	this.stylesLoaded = false;
 
@@ -92,8 +94,28 @@ var govOutsideWidget = {};
 	}
 
 	this.getLocations = function() {
-		if(typeof this.mapData.locations !== 'undefined' && typeof this.mapData.locations == 'object' && this.mapData.locations.length > 0) {
+		if(typeof this.mapData.locations == 'object' && this.mapData.locations.length > 0) {
 			return this.mapData.locations;
+		}
+		else {
+			return [];
+		}
+	}
+
+	this.getCategories = function() {
+		if(typeof this.mapData.categories == 'object' && this.mapData.categories.length > 0) {
+			var defaultCategories = [
+				{
+					'slug': 'all',
+					'title': 'All'
+				}
+			];
+
+			for(var i = 0; i < this.mapData.categories.length; i++) {
+				defaultCategories.push(this.mapData.categories[i]);
+			}
+
+			return defaultCategories;
 		}
 		else {
 			return [];
@@ -112,6 +134,7 @@ var govOutsideWidget = {};
 
 				that.widgetContainer = that.appendElement('div', 'm-go-widget h-group', that.target);
 				that.topbarContainer = that.appendElement('div', 'm-go-topbar', that.widgetContainer);
+				that.categoriesList = that.appendElement('ul', '', that.topbarContainer);
 				that.mapContainer = that.appendElement('div', 'm-go-map', that.widgetContainer);
 				that.sidebarContainer = that.appendElement('div', 'm-go-sidebar', that.widgetContainer);
 				that.locationsList = that.appendElement('ul', '', that.sidebarContainer);
@@ -119,7 +142,10 @@ var govOutsideWidget = {};
 				var initOptions = that.getInitOptions();
 				that.map = new google.maps.Map(that.mapContainer, initOptions);
 				that.locations = that.getLocations();
+				that.categories = that.getCategories();
+
 				that.plotLocations();
+				that.populateTopbar();
 				that.populateSidebar();
 			}
 		}, 20);
@@ -143,6 +169,7 @@ var govOutsideWidget = {};
 
 			});
 			marker.location_index = i;
+			marker.category = location.category;
 			this.markers.push(marker);
 
 			google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -157,21 +184,33 @@ var govOutsideWidget = {};
 		this.map.panToBounds(bounds);
 	}
 
-	this.populateSidebar = function() {
-		var i = 0;
-		var locations = this.locations;
-		var num_locations = locations.length;
+	this.populateTopbar = function() {
 		var that = this;
-		while(i < num_locations) {
-			var location = locations[i];
+		for(var i = 0; i < this.categories.length; i++) {
+			var category = this.categories[i];
 			var attributes = {
-				'data-location-index': i
+				'data-category': category.slug
+			};
+			var element = this.appendElement('li', '', this.categoriesList, category.title, attributes);
+			element.onclick = function(event) {
+				that.onCategoryClick(this.getAttribute('data-category'));
+			};
+		}
+	}
+
+	this.populateSidebar = function() {
+		var that = this;
+		var locations = this.locations;
+		for(var i = 0; i < locations.length; i++) {
+			var location = this.locations[i];
+			var attributes = {
+				'data-location-index': i,
+				'data-category': location.category
 			};
 			var element = this.appendElement('li', '', this.locationsList, locations[i].title, attributes);
 			element.onclick = function (event) {
 				that.onLocationClick(this.getAttribute('data-location-index'));
 			};
-			i++;
 		}
 	}
 
@@ -226,6 +265,41 @@ var govOutsideWidget = {};
 				this.map.panTo(marker.position);
 			}
 		}
+	}
+
+	this.onCategoryClick = function(category) {
+		this.filterSidebarByCategory(category);
+		this.filterMapByCategory(category);
+	}
+
+	this.filterSidebarByCategory = function(category) {
+		for(var i = 0; i < this.locationsList.childNodes.length; i++) {
+			var element = this.locationsList.childNodes[i];
+			var element_category = element.getAttribute('data-category');
+
+			if(element_category == category || category == 'all') {
+				this.removeClass(element, 'hidden');
+			}
+			else {
+				this.addClass(element, 'hidden');
+			}
+		}
+	}
+
+	this.filterMapByCategory = function(category) {
+		var bounds = new google.maps.LatLngBounds();
+		for(var i = 0; i < this.markers.length; i++) {
+			var marker = this.markers[i];
+			if(marker.category == category || category == 'all') {
+				bounds.extend(marker.position);
+				marker.setMap(this.map);
+			}
+			else {
+				marker.setMap(null);
+			}
+		}
+		this.map.fitBounds(bounds);
+		this.map.panToBounds(bounds);
 	}
 
 	this.hasClass = function(element, className) {

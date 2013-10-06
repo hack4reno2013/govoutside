@@ -138,10 +138,6 @@ class Users extends govOutSide {
 		
 	}
 	
-	function logout() {
-		$_SESSION = '';
-		die('<script> window.location = "'. $this->config['base_url'].'"; </script>');
-	}
 	
 	function checkIsEmail($requestEmail) {
 		$query = 'SELECT * FROM users where `email` = "'.$requestEmail.'"';

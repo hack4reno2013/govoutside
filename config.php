@@ -10,3 +10,4 @@ function config() {
 	$config['base_url'] = '/govoutside/';
 	return $config;
 }
+ 

@@ -20,7 +20,7 @@ class govOutSide {
 		if (!$link) {
 			die('Could not connect: ' . mysql_error());
 		}
-		
+
 		$db_selected = mysql_select_db($this->config['db']['name'], $link);
 		if (!$db_selected) {
 			die ('Mysql Error: ' . mysql_error());

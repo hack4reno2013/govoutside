@@ -21,7 +21,7 @@ class System extends govOutSide {
 	}
 	
 	function logout() {
-		print_r($registered_classes);
+		$this->registered_classes['Users']->logout();
 	}
 	
 	function getFormFields($type){

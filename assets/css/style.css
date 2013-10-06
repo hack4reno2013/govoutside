@@ -1,0 +1,35 @@
+html, body { width: 100%; min-height: 100%; background-color: #669966; }
+
+body { font-family: arial, sans-serif; font-size: 12px; }
+
+.clear { clear: both; }
+
+#page-wrapper { width: 990px; min-height: 100%; margin: 0 auto; }
+
+#landing-header { padding: 20px 0; }
+
+#hero-left { width: 516px; float: left; padding-top: 10px; }
+#hero-right { width: 474px; float: right; }
+
+#hero-img { width: 516px; height: 386px; }
+
+#logo-area { text-align: right; }
+#logo-lg { width: 247px; height: 60px; }
+#sub-logo-area { margin: 20px 0 10px 0; text-align: right; }
+#logo-sm { width: 123px; height: 30px; }
+
+#hero-content { color: #fff; padding-top: 20px; }
+#hero-content p { margin: 20px 0 0 40px; text-align: justify; }
+
+#starter-btns { text-align: center; padding-top: 40px; }
+
+#login-btn { width: 107px; height: 38px; margin-right: 20px; background: transparent url('../img/login_btn.png') no-repeat top left; background-size: 107px 38px; display: inline-block; }
+#signup-btn { width: 107px; height: 38px; background: transparent url('../img/signup_btn.png') no-repeat top left; background-size: 107px 38px; display: inline-block; }
+
+#lr-form-area { width: 455px; margin: 0 auto; background-color: #ccccbb; padding: 20px; border: 1px solid #666; }
+#lr-form-area h1 { font-weight: bold; font-size: 20px; padding-bottom: 10px; }
+#lr-form-area .input-container { width: 100%; padding-bottom: 10px; }
+#lr-form-area .input-container label { display: block; font-size: 14px; }
+#lr-form-area .input-container label .required_field { display: inline; color: red; padding-left: 2px; }
+#lr-form-area .input-container input { width: 100%; height: 20px; border: 1px solid #999; }
+#lr-form-area .input-container input.submit { float: right; }

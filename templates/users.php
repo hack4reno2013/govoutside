@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 $users_core = $registered_classes['Users'];
 ?>
             <div id="sub-logo-area">
@@ -12,3 +13,17 @@ $users_core = $registered_classes['Users'];
                 ?>
                 </div>
             </div>
+=======
+
+$users_core = $registered_classes['Users'];
+$action = 'Login';
+	if(isset($_GET['action']))
+	$action = $_GET['action'];
+?>
+
+<h1>Users - <?php echo ucwords($action); ?></h1>
+
+<?php
+	echo $users_core->renderAction();
+?>
+>>>>>>> 42ca065fb6de1d60a15672180a7fe00f29206cc1

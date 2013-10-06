@@ -74,8 +74,11 @@ class govOutSide {
 		$output = array(
 					0 => array(
 						'name' => 'Users',
-						'file' => 'users.php',
-						'checkFunction' => 'login'
+						'file' => 'users.php'
+					),
+					1 => array(
+						'name' => 'System',
+						'file' => 'system.php'
 					)
 				);
 		return $output;
@@ -135,7 +138,7 @@ class govOutSide {
 		$classes = $this->getClasses();
 		$registered_classes = array();
 		foreach($classes as $class){
-			$methodVariable = array(&$registered_classes[$class['name']], $class['checkFunction']);
+			$methodVariable = array(&$registered_classes[$class['name']], 'check');
 			if(!is_callable($methodVariable)) {
 				$registered_classes[$class['name']] = $this->registerBaseClasses($class['name']);
 			}

@@ -12,6 +12,11 @@ class Users extends govOutSide {
 		
 	}
 	
+	//use this to check if this class is active already
+	function check() {
+		return true;	
+	}
+	
 	function getFormFields($type){
 		switch($type){
 			case 'register':
@@ -48,7 +53,6 @@ class Users extends govOutSide {
 	
 	function renderAction() {
 		//check if they are logged in and route them out of here!
-		print_r($this->user);
 		if(!empty($this->user['uid'])){
 			$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You are logged in already. You can logout by clicking this message</a>';
 			header('Location: '. $this->config['base_url']);
@@ -57,8 +61,8 @@ class Users extends govOutSide {
 		$action = 'login';
 		if(isset($_GET['action'])){
 			$action = $_GET['action'];
-			return $this->$action();
 		}
+		return $this->$action();
 	}
 	
 	function login() {

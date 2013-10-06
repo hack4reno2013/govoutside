@@ -119,7 +119,7 @@ class System extends govOutSide {
 	function formMediator($form_fields, $type){
 		$output = '<form id="register_form" name="'.$type.'_form" method="post">';
 		//$output.= '<h2>'.ucwords($type).'</h2>';
-		$output.= '<div class="form_container" id="users-register">';
+		$output.= '<div class="form_container" id="'.$type.'_form">';
 		
 			$output.= parent::formOutput($form_fields);
 			if($type=='location')
@@ -137,7 +137,9 @@ class System extends govOutSide {
 			
 			switch($data['type']){
 				case 'categories':
-					$data['catid'] = 0;
+					if(!isset($data['catid']))
+						$data['catid'] = 0;
+					
 					$results = $this->handleCategoryInput($data);
 				break;
 				case 'location':
@@ -165,7 +167,6 @@ class System extends govOutSide {
 			"'.$data['label'].'",
 			"'.$data['color'].'"
 		)';
-		
 		$results = mysql_query($query)or die(mysql_error());
 	}
 

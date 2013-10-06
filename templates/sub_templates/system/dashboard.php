@@ -1,8 +1,11 @@
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<link rel="stylesheet" href="assets/styles/vendor/jquery-ui/jquery-ui-1.10.3.custom.min.css" />
+		<link rel="stylesheet" href="assets/css/colorpicker.css" />
 		<script type="text/javascript" src="assets/scripts/vendor/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="assets/scripts/vendor/jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript" src="assets/scripts/map.js"></script>
+        <link rel="stylesheet" media="screen" type="text/css" href="assets/css/colorpicker.css" />
+		<script type="text/javascript" src="assets/scripts/vendor/colorpicker.js"></script>
 <?php
 
 ?>
@@ -47,3 +50,4 @@ echo $this->formMediator($location_form_fields, 'location');
 ?>
 </div>
 </div>
+		<script type="text/javascript" src="assets/scripts/main.js"></script>

@@ -97,12 +97,16 @@ class govOutSide {
 			if(isset($field['class'])){
 				$customClass = $field['class'];	
 			}
-				if($field['type']!=='textarea' && $field['type']!=='select'){
+			$mid = 'field_'.$i;
+			if(isset($field['id'])){
+				$mid = $field['id'];
+			}
+				if($field['type']!=='textarea' && $field['type']!=='select' && $field['type']!=='color_picker'){
 					$output.= '<div class="input-container">';
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
-						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="'.$value.'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input" />';
+						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="'.$value.'" id="'.$mid.'" class="form_'.$field['type'].' '.$customClass.' input" />';
 					$output.= '</div>';
 				}else
 				if($field['type']=='select'){
@@ -110,7 +114,7 @@ class govOutSide {
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
-						$output.= '<select name="'.$field['name'].'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input">';
+						$output.= '<select name="'.$field['name'].'"  id="'.$mid.'" class="form_'.$field['type'].' '.$customClass.' input">';
 							$output.= '<option value="0">'.$field['first_option'].'</option>';
 							if(count($field['options'])>0){
 								foreach($field['options'] as $option){
@@ -119,6 +123,16 @@ class govOutSide {
 							}
 						$output.= '</select>';
 					$output.= '</div>';
+				}else
+				if($field['type'] == 'color_picker'){
+					if($value=='') $value = '#0000ff';
+					$output.= '<div class="input-container">';
+						$output.= '<label for="'.$field['name'].'">'.$field['label'];
+						if($field['required']==true) $output.= '<div class="required_field">*</div>';
+						$output.= '</label>';
+						$output.= '<div id="'.$mid.'"><div style="background-color:'.$value.';"></div></div>';	
+						$output.= '<input type="hidden" name="'.$field['name'].'" value="'.$value.'" id="color_input" class="form_'.$field['type'].' '.$customClass.' input" />';
+					$output.= '</div>';					
 				}
 			$i++;
 		}	

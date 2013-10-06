@@ -108,8 +108,8 @@ class System extends govOutSide {
 				return array(
 					0 => array( 'label' => '', 'name' => 'uid', 'type' => 'hidden', 'value' => $this->user_id, 'required' => false ),
 					1 => array( 'label' => 'Label', 'name' => 'label', 'value' => @$cur_data['label'], 'type' => 'text', 'required' => true ),
-					2 => array( 'label' => 'Color', 'name' => 'color', 'value' => @$cur_data['color'], 'type' => 'text', 'required' => true ),
-					3 => array( 'label' => '', 'name' => 'catid', 'type' => 'hidden', 'type' => 'text', 'value' => $cur_id, 'required' => true )
+					2 => array( 'label' => 'Color', 'name' => 'color', 'id'=>'color_picker', 'value' => @$cur_data['color'], 'type' => 'color_picker', 'required' => true ),
+					3 => array( 'label' => '', 'name' => 'catid', 'type' => 'hidden', 'value' => $cur_id, 'required' => true )
 				);
 			break;
 		}

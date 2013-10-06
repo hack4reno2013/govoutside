@@ -1,13 +1,37 @@
 .m-go-topbar
-	height: 40px
+	height: 43px
+	background: #649b40
+
 	ul
 		list-style: none
 		float: right
+		margin: 0
+		padding: 0
 
 		li
+			position: relative
 			list-style: none
-			margin: 0 10px 0 0
+			line-height: 43px
+			padding: 0 10px
+			color: #FFF
+			font-size: 20px
 			float: left
+			cursor: pointer
+
+			.arrow
+				display: none
 
 			&.active
-				color: red
+			
+				.arrow
+					position: absolute
+					z-index: 10000
+					width: 0
+					height: 0
+					border: solid transparent
+					top: 100%
+					display: block
+					border-top-color: inherit
+					border-width: 10px
+					left: 50%
+					margin-left: -10px

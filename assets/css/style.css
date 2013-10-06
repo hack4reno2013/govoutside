@@ -49,8 +49,9 @@ h3 { font-size: 16px; color: #333; padding-bottom: 5px; }
 #categories-form-area .input-container input { width: 205px; height: 20px; border: 1px solid #999; }
 
 #locations-table { margin-bottom: 20px; }
+#locations-table td { padding: 5px; }
 
-#locations-edit-area { width: 100%; }
+#locations-edit-area { width: 100%; padding-bottom: 20px; }
 
 #location-map-area { width: 450px; float: left; }
 #location-form-area { width: 440px; margin-left: 50px; float: left; }

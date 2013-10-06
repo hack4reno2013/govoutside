@@ -37,7 +37,7 @@
 		this.initMap = function()
 		{
 	 		this.map = new window.google.maps.Map(this.canvas[0], {
-				zoom: 8,
+				zoom: 16,
 				center: this.latlng,
 				streetViewControl: 0,
 				mapTypeId: window.google.maps.MapTypeId.ROADMAP

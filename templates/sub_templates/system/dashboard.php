@@ -34,10 +34,10 @@
         ?>
     </div>
     <h2>Locations</h2>
-    <table>
+    <table id="locations-table">
     <?php
     $locations = $this->getLocations();
-    print_r($locations);
+    if($locations){
     foreach($locations as $location){
     ?>
     <tr>
@@ -46,6 +46,7 @@
         <td><?=$location['address']?></td>
     </tr>
     <?php
+    }
     }
     ?>
     </table>

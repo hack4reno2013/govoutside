@@ -46,7 +46,9 @@ h3 { font-size: 16px; color: #333; padding-bottom: 5px; }
 #categories-form-area .input-container { display: inline-block; margin-right: 20px; }
 #categories-form-area .input-container label { display: block; font-size: 14px; }
 #categories-form-area .input-container label .required_field { display: inline; color: red; padding-left: 2px; }
-#categories-form-area .input-container input { width: 100%; height: 20px; border: 1px solid #999; }
+#categories-form-area .input-container input { width: 205px; height: 20px; border: 1px solid #999; }
+
+#locations-table { margin-bottom: 20px; }
 
 #locations-edit-area { width: 100%; }
 

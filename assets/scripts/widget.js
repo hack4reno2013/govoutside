@@ -20,6 +20,9 @@ var govOutsideWidget = {};
 
 	this.stylesLoaded = false;
 
+	this.activeLocation = null;
+	this.activeCategory = null;
+
 	this.init = function() {
 		if(this.target == null) {
 			console.log('error: missing go-root element');
@@ -215,6 +218,7 @@ var govOutsideWidget = {};
 				that.onCategoryClick(this.getAttribute('data-category'));
 			};
 		}
+		this.activeCategory = 'all';
 	}
 
 	this.populateSidebar = function() {
@@ -233,6 +237,7 @@ var govOutsideWidget = {};
 				that.onLocationClick(this.getAttribute('data-location-index'));
 			};
 		}
+		this.activeLocation = -1;
 	}
 
 	this.appendElement = function(elementType, elementClass, elementParent, innerHtml, attributes) {
@@ -261,6 +266,7 @@ var govOutsideWidget = {};
 	}
 
 	this.onLocationClick = function(location_index) {
+		this.activeCategory = location_index;
 		this.setSidebarLocationActive(location_index);
 		this.setMapLocationActive(location_index);
 	}
@@ -289,9 +295,13 @@ var govOutsideWidget = {};
 	}
 
 	this.onCategoryClick = function(category) {
-		this.setTopbarLocationActive(category);
-		this.filterSidebarByCategory(category);
-		this.filterMapByCategory(category);
+		if(category !== this.activeCategory) {
+			this.activeCategory = category;
+			this.setSidebarLocationActive(-1);
+			this.setTopbarLocationActive(category);
+			this.filterSidebarByCategory(category);
+			this.filterMapByCategory(category);
+		}
 	}
 
 	this.setTopbarLocationActive = function(category) {

@@ -96,7 +96,7 @@ class Users extends govOutSide {
 				$_SESSION['user']['uid'] = $this->user['uid'];
 				$_SESSION['user']['email'] = $this->user['email'];
 				$_SESSION['user']['api_key'] = $this->user['api_key'];
-				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">Thank you for logging in! You can logout by clicking this message if you want...</a>';
+				//$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">Thank you for logging in! You can logout by clicking this message if you want...</a>';
 				die('<script> window.location = window.location; </script>');
 			}
 		}else{
@@ -139,9 +139,8 @@ class Users extends govOutSide {
 	}
 	
 	function logout() {
-				$_SESSION['user'] = '';
-				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You have now logged out! Please come back soon.</a>';
-				die('<script> window.location = window.location; </script>');
+		$_SESSION = '';
+		die('<script> window.location = "'. $this->config['base_url'].'"; </script>');
 	}
 	
 	function checkIsEmail($requestEmail) {

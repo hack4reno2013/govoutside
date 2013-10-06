@@ -132,7 +132,6 @@ class govOutSide {
 						$output.= '</label>';
 					}
 						$output.= '<select name="'.$field['name'].'"  id="'.$mid.'" class="form_'.$field['type'].' '.$customClass.' input">';
-							$output.= '<option value="0">'.$field['first_option'].'</option>';
 							if(count($field['options'])>0){
 								foreach($field['options'] as $option){
 									$output.= '<option value="'.$option['catid'].'">'.$option['label'].'</option>';	

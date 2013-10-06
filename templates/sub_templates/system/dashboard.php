@@ -35,14 +35,17 @@
     <table id="locations-table">
     <?php
     $locations = $this->getLocations();
+    $i = 0;
+    $count = count($locations);
     foreach($locations as $location){
     ?>
-    <tr align="center">
+    <tr align="center"<?php if($i < ($count-1)){ echo ' style="border-bottom: 1px solid #999;"'; }?>>
         <td width="30%" style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
         <td width="30%" ><?=$location['name']?></td>
         <td width="30%" ><?=$location['address']?></td>
     </tr>
     <?php
+    $i++;
 	}
     ?>
     </table>

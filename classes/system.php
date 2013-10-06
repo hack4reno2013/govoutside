@@ -39,7 +39,7 @@ class System extends govOutSide {
 	}
 	
 	function getLocations() {
-		$query = 'SELECT * FROM locations WHERE `uid` = "'.$this->user_id.'"';
+		$query = 'SELECT a.*, b.label, b.color FROM locations as a LEFT JOIN categories as b USING(catid) WHERE a.`uid` = "'.$this->user_id.'"';
 		$results = mysql_query($query)or die(mysql_error());
 		
 		while ($row = mysql_fetch_assoc($results)){

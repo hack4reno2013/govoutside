@@ -34,6 +34,21 @@
         ?>
     </div>
     <h2>Locations</h2>
+    <table>
+    <?php
+    $locations = $this->getLocations();
+    print_r($locations);
+    foreach($locations as $location){
+    ?>
+    <tr>
+        <td style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
+        <td><?=$location['name']?></td>
+        <td><?=$location['address']?></td>
+    </tr>
+    <?php
+    }
+    ?>
+    </table>
     <?php
         if($categories){
     ?>

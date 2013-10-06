@@ -3,6 +3,8 @@ var govOutsideWidget = {};
 
 	thisApp = this;
 
+	this.api_key = null;
+
 	this.host = location.host;
 	this.target = document.getElementById('go-root');
 	this.map = null;
@@ -24,7 +26,10 @@ var govOutsideWidget = {};
 	this.activeLocation = null;
 	this.activeCategory = null;
 
-	this.init = function() {
+	this.init = function(api_key) {
+
+		this.api_key = api_key;
+
 		if(this.target == null) {
 			console.log('error: missing go-root element');
 			return;
@@ -81,7 +86,7 @@ var govOutsideWidget = {};
 				}
 			}
 		}
-		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php', true);
+		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php?api_key=' + this.api_key, true);
 		xmlhttp.send();
 	}
 

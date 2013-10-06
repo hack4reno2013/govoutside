@@ -187,11 +187,11 @@ class govOutSide {
 		$is_logged = $this->isLoggedIn();
 		if($templateInfo['login_required']==true){
 			if($is_logged == false){
-				header('Location: '.$this->config['base_url']);
+				die('<script> window.location = window.location; </script>');
 			}
 		}else{
 			if($is_logged == true && $templateInfo['name']!=='error'){
-				header('Location: '.$this->config['base_url'].'?view=system');	
+				die('<script> window.location = "'.$this->config['base_url'].'?view=system"; </script>');
 			}
 		}
 		

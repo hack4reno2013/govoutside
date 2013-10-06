@@ -2,10 +2,13 @@
 
 class Users extends govOutSide {
 	var $user = array();
-	
+	var $config = '';
 	function __construct() {
-		session_start();
+		$this->config = config();
 		//lets check if they are logged in if so then set the global users array as the log data
+		if(!empty($_SESSION['user'])){
+			$this->user = $_SESSION['user'];				
+		}
 		
 	}
 	
@@ -23,8 +26,8 @@ class Users extends govOutSide {
 			break;	
 			case 'login':
 				return array(
-					0 => array( 'label' => 'E-mail', 'name' => 'email', 'type' => 'text' ),
-					1 => array( 'label' => 'Password', 'name' => 'password', 'type' => 'password' )
+					0 => array( 'label' => 'E-mail', 'name' => 'email', 'type' => 'text', 'required' => true ),
+					1 => array( 'label' => 'Password', 'name' => 'password', 'type' => 'password', 'required' => true )
 				);
 			break;
 		}
@@ -44,6 +47,13 @@ class Users extends govOutSide {
 	}
 	
 	function renderAction() {
+		//check if they are logged in and route them out of here!
+		print_r($this->user);
+		if(!empty($this->user['uid'])){
+			$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You are logged in already. You can logout by clicking this message</a>';
+			header('Location: '. $this->config['base_url']);
+		}
+		
 		$action = 'login';
 		if(isset($_GET['action'])){
 			$action = $_GET['action'];
@@ -52,7 +62,22 @@ class Users extends govOutSide {
 	}
 	
 	function login() {
-		if(empty($user)){
+		if(!empty($_POST)) {
+			$loginResults = $this->handleLogin();
+			
+		}
+		$output = '';
+			if(isset($loginResults['error'])){
+				$output.= $this->handleError($loginResults);
+			}
+		
+		$output.= $this->login_form();
+		
+		return $output;
+			
+	}
+	
+	function login_form() {
 			$output = '<form id="register_form" name="register_form" method="post">';
 			$output.= '<div class="form_container" id="users-register">';
 				$form_fields = $this->getFormFields('login');
@@ -61,15 +86,30 @@ class Users extends govOutSide {
 					$output.= $this->formOutput($form_fields);
 				}
 			$output.= '<input type="submit" class="submit" value="Submit" />';
-			$output.= '</div></form>';
-		}else{
-			$output = $this->register();	
-		}
+			$output.= '</div><div class="register_button"><a href="'.$this->config['base_url'].'?view=users&action=register">Register an Account</a></div></form>';
 		return $output;
 	}
 	
 	function handleLogin() {
-		
+		$data = $_POST;
+		if(!empty($data['email']) && !empty($data['password'])){
+			$email = $data['email'];
+			$password = md5($data['password']);
+			$query = 'SELECT * FROM users WHERE `email` = "'.$email.'" and password = "'.$password.'"';
+			$results = mysql_query($query)or die(mysql_error());
+			$data = mysql_fetch_assoc($results);
+			
+			if(isset($data['uid'])){
+				$this->user = $data;
+				// start login process.
+				$_SESSION['user']['uid'] = $this->user['uid'];
+				$_SESSION['user']['email'] = $this->user['email'];
+				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">Thank you for logging in! You can logout by clicking this message if you want...</a>';
+				header('Location: '. $this->config['base_url']);
+			}
+		}else{
+			return array( 'error' => array( 'You left a field blank...') );	
+		}
 	}
 	
 	function handleError($data) {
@@ -101,7 +141,7 @@ class Users extends govOutSide {
 					$output.= $this->formOutput($form_fields);
 				}
 			$output.= '<input type="submit" class="submit" value="Submit" />';
-			$output.= '</div></form>';
+			$output.= '</div><div class="register_button"><a href="'.$this->config['base_url'].'?view=users&action=login">Login</a></div></form>';
 		return $output;
 		
 	}
@@ -137,20 +177,19 @@ class Users extends govOutSide {
 		}
 		// create api_key
 		$data['api_key'] = $this->apiGeneration($data);
-		
-		print_r($data);
 		//save data
 		$query = 'INSERT INTO users (org,first_name,last_name,email,password,active,api_key) VALUES (
 			"'.$data['org'].'",
 			"'.$data['first_name'].'",
 			"'.$data['last_name'].'",
 			"'.$data['email'].'",
-			"'.$data['password'].'",
+			"'.md5($data['password']).'",
 			"1",
 			"'.$data['api_key'].'"
 		)';
 		
 		$results = mysql_query($query)or die(mysql_error());
+		header('Location: '. $this->config['base_url'].'?view=users&action=login');
 		
 	}
 	

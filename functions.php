@@ -4,7 +4,10 @@ require_once('config.php');
 
 class govOutSide {
 	var $users_core;
+	var $config;
+	var $messages = array();
 	function __construct() {
+		$this->config = config();
 		//init functions like connect to database and running anything we need upon start
 		$this->db_connect();
 		//include classes
@@ -12,14 +15,12 @@ class govOutSide {
 	}
 	
 	private function db_connect() {
-		$config = config();
-		
-		$link = mysql_connect($config['db']['host'], $config['db']['username'], $config['db']['password'] = '');
+		$link = mysql_connect($this->config['db']['host'], $this->config['db']['username'], $this->config['db']['password']);
 		if (!$link) {
 			die('Could not connect: ' . mysql_error());
 		}
 		
-		$db_selected = mysql_select_db('govoutside', $link);
+		$db_selected = mysql_select_db($this->config['db']['name'], $link);
 		if (!$db_selected) {
 			die ('Mysql Error: ' . mysql_error());
 		}	
@@ -28,27 +29,42 @@ class govOutSide {
 	public function getTemplates() {
 		$output = array(
 					0 => array(
+						'page_title' => 'Home',
 						'name' => 'index',
 						'file' => 'index.php',
 						'before' => array(0 => 'includes/header.php'),
 						'after' => array(0 => 'includes/footer.php'),
-						'classes' => array( 0 => array('type'=>'login', 'init' => true))
+						'classes' => array( 0 => array('type'=>'login', 'init' => true)),
+						'login_required' => false
 					),
 					1 => array(
+						'page_title' => 'Users',
 						'name' => 'users',
 						'file' => 'users.php',
 						'before' => array(0 => 'includes/header.php'),
 						'after' => array(0 => 'includes/footer.php'),
-						'classes' => array( 0 => array('type'=>'login', 'init' => false))
+						'classes' => array( 0 => array('type'=>'login')),
+						'login_required' => false
+					),
+					2 => array(
+						'page_title' => 'System',
+						'name' => 'system',
+						'file' => 'system.php',
+						'before' => array(0 => 'includes/header.php'),
+						'after' => array(0 => 'includes/footer.php'),
+						'classes' => array( 0 => array('type'=>'login')),
+						'login_required' => true
 					),
 					
 					//keep this one for error generation
 					999 => array(
+						'page_title' => 'Error',
 						'name' => 'error',
 						'file' => 'error.php',
 						'before' => array(0 => 'includes/header.php'),
 						'after' => array(0 => 'includes/footer.php'),
-						'classes' => array( 0 => array('type'=>'login', 'init' => true))
+						'classes' => array( 0 => array('type'=>'login')),
+						'login_required' => false
 					)
 				);
 		return $output;
@@ -63,6 +79,14 @@ class govOutSide {
 					)
 				);
 		return $output;
+	}
+	
+	public function isLoggedIn() {
+		if(!empty($_SESSION['user']['uid'])){
+			return $_SESSION['user']['uid'];
+		}else{
+			return false;	
+		}
 	}
 	
 	public function includeClasses() {
@@ -90,6 +114,22 @@ class govOutSide {
 		return new $type();	
 	}
 	
+	public function handleMessages(){
+		$messages = $_SESSION['message'];
+		if(!empty($messages)){
+			echo '<div class="system_message">';
+				$i=0;
+				foreach($messages as $message){
+					echo '<div class="message" id="message_'.$i.'">';
+						echo $message;
+					echo '</div>';
+					$i++;
+				}
+			echo '</div>';	
+		}
+		
+		$_SESSION['message'] = '';
+	}
 	
 	public function renderTemplate($templateInfo) {
 		$classes = $this->getClasses();
@@ -100,11 +140,28 @@ class govOutSide {
 				$registered_classes[$class['name']] = $this->registerBaseClasses($class['name']);
 			}
 		}
+		//does the template require a login?
+		$is_logged = $this->isLoggedIn();
+		if($templateInfo['login_required']==true){
+			if($is_logged == false){
+				header('Location: '.$this->config['base_url']);
+			}
+		}else{
+			if($is_logged == true && $templateInfo['name']!=='error'){
+				header('Location: '.$this->config['base_url'].'?view=system');	
+			}
+		}
+		
 		//first include the main template
 		if(isset($templateInfo['before'])){
 			foreach($templateInfo['before'] as $before){
 				include('templates/'.$before);
 			}
+		}
+		
+		// handle all session messages
+		if(!empty($_SESSION['message'])){
+			$this->messages = $this->handleMessages();
 		}
 		
 		include('templates/'.$templateInfo['file']);

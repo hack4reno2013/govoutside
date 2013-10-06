@@ -1,5 +1,6 @@
 <?php
-$page_title = ucwords($_GET['action']);
+
+$page_title = ucwords($templateInfo['page_title']);
 
 ?>
 

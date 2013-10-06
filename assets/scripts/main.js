@@ -26,7 +26,11 @@
 				$('#categories_form #color').val(color);
 				$('#categories_form #field_3').val(id);
 				$('#categories_form .submit').val('Edit');
-				$('#categories_form .submit').after('<a class="button delete" href="?view=system&type=category&id='+id+'&delete=true">Delete</a>');
+				if(!$('#categories_form .button.delete')){
+					$('#categories_form .submit').after('<a class="button delete" href="?view=system&type=category&id='+id+'&delete=true">Delete</a>');
+				}else{
+					$('#categories_form .button.delete').attr('href','?view=system&type=category&id='+id+'&delete=true');
+				}
 		});
 	}
 )(jQuery);

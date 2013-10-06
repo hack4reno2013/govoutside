@@ -18,12 +18,13 @@
         ?>
         <div>To start please create at least one category</div>
         <?php
-        }
-        foreach($categories as $category){
-        ?>
-        <div class="category" style="background-color:<?=$category['color']?>;" data-color='<?=$category['color']?>' data-label='<?=$category['label']?>' data-id="<?=$category['catid']?>"><?=$category['label']?></div>
-        <?php
-        }
+        }else{
+			foreach($categories as $category){
+			?>
+			<div class="category" style="background-color:<?=$category['color']?>;" data-color='<?=$category['color']?>' data-label='<?=$category['label']?>' data-id="<?=$category['catid']?>"><?=$category['label']?></div>
+			<?php
+			}
+		}
         ?>
     </div>
     <h3>Add Category</h3>
@@ -40,14 +41,18 @@
     if($locations){
     foreach($locations as $location){
     ?>
-    <tr>
-        <td style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
-        <td><?=$location['name']?></td>
-        <td><?=$location['address']?></td>
+    <tr align="center">
+        <td width="30%" style="background-color: <?=$location['color']?>; color: #fff;"><?=$location['label']?></td>
+        <td width="30%" ><?=$location['name']?></td>
+        <td width="30%" ><?=$location['address']?></td>
     </tr>
     <?php
     }
-    }
+    }else{
+		?>
+        You have no locations registered. You may need to add a category if you haven't already!
+        <?php	
+	}
     ?>
     </table>
     <?php

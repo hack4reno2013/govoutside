@@ -191,7 +191,11 @@ var govOutsideWidget = {};
 			var attributes = {
 				'data-category': category.slug
 			};
-			var element = this.appendElement('li', '', this.categoriesList, category.title, attributes);
+			var elementClass = '';
+			if(category.slug == 'all') {
+				elementClass = 'active';
+			}
+			var element = this.appendElement('li', elementClass, this.categoriesList, category.title, attributes);
 			element.onclick = function(event) {
 				that.onCategoryClick(this.getAttribute('data-category'));
 			};
@@ -268,8 +272,22 @@ var govOutsideWidget = {};
 	}
 
 	this.onCategoryClick = function(category) {
+		this.setTopbarLocationActive(category);
 		this.filterSidebarByCategory(category);
 		this.filterMapByCategory(category);
+	}
+
+	this.setTopbarLocationActive = function(category) {
+		for(var i = 0; i < this.categoriesList.childNodes.length; i++) {
+			var element = this.categoriesList.childNodes[i];
+			var element_category = element.getAttribute('data-category');
+			if(element_category === category) {
+				this.addClass(element, 'active');
+			}
+			else {
+				this.removeClass(element, 'active');
+			}
+		}
 	}
 
 	this.filterSidebarByCategory = function(category) {

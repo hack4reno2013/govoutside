@@ -71,7 +71,7 @@ class Ajax extends govOutSide {
 				if($categories && count($categories)>0){
 					$i = 0;
 					foreach($categories as $category){
-						$result['categories'][$i]['slug'] = str_replace(array(' ',''),array('_','-'), $category['label']);
+						$result['categories'][$i]['slug'] = strtolower(str_replace(array(' ',''),array('_','-'), $category['label']));
 						$result['categories'][$i]['title'] = $category['label'];
 						$result['categories'][$i]['color'] = $category['color'];
 						$i++;
@@ -92,7 +92,7 @@ class Ajax extends govOutSide {
 						$result['locations'][$i]['lng'] = $location['lon'];
 						$average_lng = $location['lon'] + $average_lng;
 						$result['locations'][$i]['desc'] = $location['address'];
-						$result['locations'][$i]['category'] = str_replace(array(' ',''),array('_','-'), $location['label']);
+						$result['locations'][$i]['category'] = strtolower(str_replace(array(' ',''),array('_','-'), $location['label']));
 						$i++;
 					}
 				$result['init']['center']['lat'] = $average_lat/count($locations);

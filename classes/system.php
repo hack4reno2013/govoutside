@@ -157,6 +157,11 @@ class System extends govOutSide {
 		include(dirname(__FILE__) . '/../templates/sub_templates/system/dashboard.php');
 	}
 	
+	function ajax() {
+		
+		die();
+	}
+	
 	function handleCategoryInput($data) {
 		$query = 'REPLACE INTO categories (catid, uid,label,color) VALUES (
 			"'.$data['catid'].'",

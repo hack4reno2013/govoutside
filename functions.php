@@ -56,6 +56,15 @@ class govOutSide {
 						'classes' => array( 0 => array('type'=>'login')),
 						'login_required' => true
 					),
+					3 => array(
+						'page_title' => 'Ajax',
+						'name' => 'ajax',
+						'file' => 'ajax.php',
+						'before' => array(),
+						'after' => array(),
+						'classes' => array( ),
+						'login_required' => false
+					),
 					
 					//keep this one for error generation
 					999 => array(
@@ -80,6 +89,10 @@ class govOutSide {
 					1 => array(
 						'name' => 'System',
 						'file' => 'system.php'
+					),
+					2 => array(
+						'name' => 'Ajax',
+						'file' => 'ajax.php'
 					)
 				);
 		return $output;
@@ -210,7 +223,7 @@ class govOutSide {
 				die('<script> window.location = window.location; </script>');
 			}
 		}else{
-			if($is_logged == true && $templateInfo['name']!=='error'){
+			if($is_logged == true && $templateInfo['name']!=='error' && $templateInfo['name']!=='ajax'){
 				die('<script> window.location = "'.$this->config['base_url'].'?view=system"; </script>');
 			}
 		}

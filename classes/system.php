@@ -78,7 +78,7 @@ class System extends govOutSide {
 	}
 	
 	function dashboard() {
-		include('/templates/sub_templates/system/dashboard.php');
+		include(dirname(__FILE__) . '/../templates/sub_templates/system/dashboard.php');
 	}
 	
 	function handleInput() {

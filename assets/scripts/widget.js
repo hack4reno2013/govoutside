@@ -7,6 +7,7 @@ var govOutsideWidget = {};
 
 	this.host = location.host;
 	this.target = document.getElementById('go-root');
+	this.endpoint = null;
 	this.map = null;
 	this.markers = [];
 	this.mapData = null;
@@ -26,9 +27,13 @@ var govOutsideWidget = {};
 	this.activeLocation = null;
 	this.activeCategory = null;
 
-	this.init = function(api_key) {
+	this.init = function(api_key, endpoint) {
 
 		this.api_key = api_key;
+
+		if(typeof endpoint !== 'undefined') {
+			this.endpoint = endpoint;
+		}
 
 		if(this.target == null) {
 			console.log('error: missing go-root element');
@@ -86,7 +91,13 @@ var govOutsideWidget = {};
 				}
 			}
 		}
-		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php?view=ajax&api_key=' + this.api_key, true);
+
+		var endpoint = '//' + this.host + '/test/endpoint.php?view=ajax&api_key=' + this.api_key;
+		if(this.endpoint !== null) {
+			endpoint = this.endpoint;
+		}
+
+		xmlhttp.open('GET', endpoint, true);
 		xmlhttp.send();
 	}
 
@@ -113,7 +124,7 @@ var govOutsideWidget = {};
 	}
 
 	this.getColors = function() {
-		if(typeof this.categories == 'object' && this.mapData.categories.length > 0) {
+		if(typeof this.categories == 'object' && this.categories.length > 0) {
 			colors = {};
 			for(var i = 0; i < this.categories.length; i++) {
 				colors[this.categories[i].slug] = this.categories[i].color;

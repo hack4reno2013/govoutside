@@ -226,7 +226,9 @@ var govOutsideWidget = {};
 				'data-location-index': i,
 				'data-category': location.category
 			};
-			var element = this.appendElement('li', '', this.locationsList, locations[i].title, attributes);
+			var element = this.appendElement('li', '', this.locationsList, '', attributes);
+			var title = this.appendElement('h1', '', element, locations[i].title);
+			var desc = this.appendElement('p', '', element, locations[i].desc);
 			element.onclick = function (event) {
 				that.onLocationClick(this.getAttribute('data-location-index'));
 			};

@@ -18,6 +18,49 @@ class System extends govOutSide {
 		while ($row = mysql_fetch_assoc($results)){
 			$data[] = $row;
 		}
+		if(!isset($data[0])){
+			return false;	
+		}
+		
+		return $data;
+	}
+	
+	function getCategory($id) {
+		$query = 'SELECT * FROM categories WHERE `catid` = "'.$id.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		$data = mysql_fetch_assoc($results);
+			
+		if(empty($data)){
+			return false;	
+		}
+		
+		return $data;
+	}
+	
+	function getLocations() {
+		$query = 'SELECT * FROM locations WHERE `uid` = "'.$this->user_id.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		while ($row = mysql_fetch_assoc($results)){
+			$data[] = $row;
+		}
+		if(!isset($data[0])){
+			return false;	
+		}
+		
+		return $data;
+	}
+	
+	function getLocation($id) {
+		$query = 'SELECT * FROM locations WHERE `lid` = "'.$id.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		$data = mysql_fetch_assoc($results);
+			
+		if(empty($data)){
+			return false;	
+		}
 		
 		return $data;
 	}
@@ -27,31 +70,46 @@ class System extends govOutSide {
 	}
 	
 	function getFormFields($type){
-		
+		$cur_id = 0;
+		$cur_data = array();
 		switch($type){
 			case 'location':
+				if(isset($_GET['id']) && isset($_GET['type'])) {
+					if($_GET['type']=='location'){
+					 $cur_id = $_GET['id'];
+					 $cur_data = $this->getLocation($cur_id);
+					}
+				}
 				$categories = $this->getCategories();
 				return array(
 					0 => array( 'label' => '', 'name' => 'uid', 'type' => 'hidden', 'value' => $this->user_id, 'required' => false ),
 					1 => array( 'label' => '', 'name' => 'parentid', 'type' => 'hidden', 'value' => '0', 'required' => false ),
-					2 => array( 'label' => 'Category', 'name' => 'catid', 'type' => 'select', 'first_option'=>'Select a Category', 'options'=>$categories, 'value' => '', 'required' => true ),
-					3 => array( 'label' => 'Icon', 'name' => 'iconid', 'type' => 'select', 'first_option' => 'Select an Icon', 'options' => array(), 'required' => true ),
-					4 => array( 'label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => '', 'required' => true ),
-					5 => array( 'label' => 'Address', 'name' => 'address', 'type' => 'text', 'value' => '', 'required' => true ),
-					6 => array( 'label' => 'City', 'name' => 'city', 'type' => 'text', 'value' => '', 'required' => true ),
-					7 => array( 'label' => 'State', 'name' => 'state', 'type' => 'text', 'value' => '', 'required' => true ),
-					8 => array( 'label' => 'Zip Code', 'name' => 'zip', 'type' => 'text', 'value' => '', 'required' => true ),
-					9 => array( 'label' => 'Lat (will be hidden)', 'name' => 'lat', 'type' => 'text', 'value' => '', 'required' => true ),
-					10 => array( 'label' => 'Long (will be hidden)', 'name' => 'lon', 'type' => 'text', 'value' => '', 'required' => true ),
-					11 => array( 'label' => '', 'name' => 'type', 'type' => 'hidden', 'value' => '', 'required' => false ),
-					12 => array( 'label' => '', 'name' => 'active', 'type' => 'hidden', 'value' => '', 'required' => false ),
-					13 => array( 'label' => '', 'name' => '', 'type' => 'text', 'value' => '', 'required' => false ),
+					2 => array( 'label' => 'Category', 'name' => 'catid', 'type' => 'select', 'first_option'=>'Select a Category', 'options'=>$categories, 'value' => @$cur_data['label'], 'required' => true ),
+					3 => array( 'label' => 'Icon', 'name' => 'iconid', 'type' => 'select', 'first_option' => 'Select an Icon', 'options' => array(), 'value'=>@$cur_data['label'], 'required' => true ),
+					4 => array( 'label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => @$cur_data['name'], 'required' => true ),
+					5 => array( 'label' => 'Address', 'name' => 'address', 'type' => 'text', 'value' => @$cur_data['address'], 'required' => true ),
+					6 => array( 'label' => 'City', 'name' => 'city', 'type' => 'text', 'value' => @$cur_data['city'], 'required' => true ),
+					7 => array( 'label' => 'State', 'name' => 'state', 'type' => 'text', 'value' => @$cur_data['state'], 'required' => true ),
+					8 => array( 'label' => 'Zip Code', 'name' => 'zip', 'type' => 'text', 'value' => @$cur_data['zip'], 'required' => true ),
+					9 => array( 'label' => 'Lat', 'name' => 'lat', 'type' => 'text', 'value' => @$cur_data['lat'], 'required' => true ),
+					10 => array( 'label' => 'Long', 'name' => 'lon', 'type' => 'text', 'value' => @$cur_data['lon'], 'required' => true ),
+					11 => array( 'label' => '', 'name' => 'type', 'type' => 'hidden', 'value' => @$cur_data['type'], 'required' => false ),
+					12 => array( 'label' => '', 'name' => 'active', 'type' => 'hidden', 'value' => '1', 'required' => false ),
+					13 => array( 'label' => '', 'name' => 'lid', 'type' => 'hidden', 'value' => $cur_id, 'required' => false )
 				);
 			break;	
 			case 'categories':
+				if(isset($_GET['id']) && isset($_GET['type'])) {
+					if($_GET['type']=='categories'){
+					 $cur_id = $_GET['id'];
+					 $cur_data = $this->getCategory($cur_id);
+					}
+				}
 				return array(
-					0 => array( 'label' => 'Label', 'name' => 'label', 'type' => 'text', 'required' => true ),
-					1 => array( 'label' => 'Color', 'name' => 'color', 'type' => 'text', 'required' => true )
+					0 => array( 'label' => '', 'name' => 'uid', 'type' => 'hidden', 'value' => $this->user_id, 'required' => false ),
+					1 => array( 'label' => 'Label', 'name' => 'label', 'value' => @$cur_data['label'], 'type' => 'text', 'required' => true ),
+					2 => array( 'label' => 'Color', 'name' => 'color', 'value' => @$cur_data['color'], 'type' => 'text', 'required' => true ),
+					3 => array( 'label' => '', 'name' => 'catid', 'type' => 'text', 'value' => $cur_id, 'required' => true )
 				);
 			break;
 		}
@@ -63,6 +121,7 @@ class System extends govOutSide {
 		$output.= '<div class="form_container" id="users-register">';
 			$output.= parent::formOutput($form_fields);
 			
+		$output.= '<input type="hidden" name="type" class="type" value="'.$type.'" />';
 		$output.= '<input type="submit" class="submit" value="Submit" />';
 		$output.= '</div></form>';
 		return $output;
@@ -70,6 +129,20 @@ class System extends govOutSide {
 
 	function renderAction($registered_classes) {		
 		$action = 'dashboard';
+		if(!empty($_POST)){
+			$data = $_POST;
+			print_r($_POST);
+			switch($data['type']){
+				case 'categories':
+					$data['catid'] = 0;
+					$results = $this->handleCategoryInput($data);
+				break;
+				case 'location':
+					$results = $this->handleLocationInput($data);
+				break;
+			}
+		}
+		
 		if(isset($_GET['action'])){
 			$action = $_GET['action'];
 		}
@@ -82,8 +155,35 @@ class System extends govOutSide {
 		include(dirname(__FILE__) . '/../templates/sub_templates/system/dashboard.php');
 	}
 	
-	function handleInput() {
+	function handleCategoryInput($data) {
+		$query = 'REPLACE INTO categories (catid, uid,label,color) VALUES (
+			"'.$data['catid'].'",
+			"'.$data['uid'].'",
+			"'.$data['label'].'",
+			"'.$data['color'].'"
+		)';
 		
+		$results = mysql_query($query)or die(mysql_error());
+	}
+
+	function handleLocationInput($data) {
+		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,city,state,zip,lat,lon,type,active) VALUES (
+			"'.$data['lid'].'",
+			"'.$data['uid'].'",
+			"'.$data['catid'].'",
+			"'.$data['iconid'].'",
+			"'.$data['parentid'].'",
+			"'.$data['name'].'",
+			"'.$data['address'].'",
+			"'.$data['city'].'",
+			"'.$data['state'].'",
+			"'.$data['zip'].'",
+			"'.$data['lat'].'",
+			"'.$data['lon'].'",
+			"'.$data['type'].'",
+			"'.$data['active'].'"
+		)';
+		$results = mysql_query($query)or die(mysql_error());
 	}
 
 }

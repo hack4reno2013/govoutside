@@ -10,6 +10,7 @@ var govOutsideWidget = {};
 	this.mapData = null;
 	this.locations = null;
 	this.categories = null;
+	this.colors = null;
 
 	this.widgetContainer = null;
 	this.mapContainer = null;
@@ -106,6 +107,19 @@ var govOutsideWidget = {};
 		}
 	}
 
+	this.getColors = function() {
+		if(typeof this.categories == 'object' && this.mapData.categories.length > 0) {
+			colors = {};
+			for(var i = 0; i < this.categories.length; i++) {
+				colors[this.categories[i].slug] = this.categories[i].color;
+			}
+			return colors;
+		}
+		else {
+			return [];
+		}
+	}
+
 	this.getCategories = function() {
 		if(typeof this.mapData.categories == 'object' && this.mapData.categories.length > 0) {
 			var defaultCategories = [
@@ -148,6 +162,7 @@ var govOutsideWidget = {};
 				that.map = new google.maps.Map(that.mapContainer, initOptions);
 				that.locations = that.getLocations();
 				that.categories = that.getCategories();
+				that.colors = that.getColors();
 
 				that.plotLocations();
 				that.populateTopbar();
@@ -171,7 +186,7 @@ var govOutsideWidget = {};
 				position: latlng,
 				map: this.map,
 				title: location.title,
-				icon: this.getIcon('//' + this.host + '/assets/images/icons/green.png', 47, 61)
+				icon: this.getSvgIcon(this.colors[location.category])
 
 			});
 			marker.location_index = i;
@@ -190,14 +205,15 @@ var govOutsideWidget = {};
 		this.map.panToBounds(bounds);
 	}
 
-	this.getIcon = function(fileUrl, width, height) {
-		return new google.maps.MarkerImage(
-			fileUrl,
-			null,
-			null,
-			null,
-			new google.maps.Size(width, height)
-		);
+	this.getSvgIcon = function(color) {
+		return {
+			path: 'M 100 0 L 0 0 L 0 100 L 35 100 L 50 120 L 65 100 L 100 100 Z',
+			fillColor: color,
+			fillOpacity: 1,
+			strokeColor: '',
+			strokeWeight: 1,
+			scale: 1/3
+		};
 	}
 
 	this.populateTopbar = function() {

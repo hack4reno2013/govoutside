@@ -12,30 +12,85 @@ class Ajax extends govOutSide {
 		return true;	
 	}
 	
+	function getCategories() {
+		$query = 'SELECT * FROM categories WHERE `uid` = "'.$this->user_id.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		while ($row = mysql_fetch_assoc($results)){
+			$data[] = $row;
+		}
+		if(!isset($data[0])){
+			return false;	
+		}
+		
+		return $data;
+	}
+	
+	function getLocations() {
+		$query = 'SELECT * FROM locations l LEFT JOIN categories c ON l.catid = c.catid WHERE l.uid = "'.$this->user_id.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		while ($row = mysql_fetch_assoc($results)){
+			$data[] = $row;
+		}
+		if(!isset($data[0])){
+			return false;	
+		}
+		
+		return $data;
+	}
+	
+	function findUserbyKey($key) {
+		$query = 'SELECT * FROM users WHERE api_key = "'.$key.'"';
+		$results = mysql_query($query)or die(mysql_error());
+		
+		while ($row = mysql_fetch_assoc($results)){
+			$data[] = $row;
+		}
+		if(!isset($data[0])){
+			return false;	
+		}
+		
+		return $data;
+	}
+
 	function getOutput() {
 		$data = $_GET;
 		$result = array();
 		$user = $this->registered_classes['Users']->user;
 		if(isset($data['api_key'])){
-			if($data['api_key'] !== $user['api_key']){
+			$check_api_key = $this->findUserbyKey($data['api_key']);
+			if($check_api_key==false){
 				$result = array( 'Status' => 'Error: Keys do not match...' );
 			}else{
 				//build out categories
-				$categories = $this->registered_classes['System']->getCategories();
-				print_r($this->registered_classes['System']->getCategories());
+				$categories = $this->getCategories();
+				$locations = $this->getLocations();
+				
 				$result['init']['zoom'] = 8;
 				$result['init']['center']['lat'] = 8;
 				$result['init']['center']['lng'] = 8;
-	
-				$result['categories']['slug'] = 8;
-				$result['categories']['title'] = 8;
-				$result['categories']['color'] = 8;
-	
-				$result['locations']['title'] = 8;
-				$result['locations']['lat'] = 8;
-				$result['locations']['lng'] = 8;
-				$result['locations']['desc'] = 8;
-				$result['locations']['category'] = 8;
+				if(count($categories)>0){
+					$i = 0;
+					foreach($categories as $category){
+						$result['categories'][$i]['slug'] = str_replace(array(' ',''),array('_','-'), $category['label']);
+						$result['categories'][$i]['title'] = $category['label'];
+						$result['categories'][$i]['color'] = $category['color'];
+						$i++;
+					}
+				}
+				
+				if(count($locations)>0){
+					$i=0;
+					foreach($locations as $location){
+						$result['locations'][$i]['title'] = $location['name'];
+						$result['locations'][$i]['lat'] = $location['lat'];
+						$result['locations'][$i]['lng'] = $location['lon'];
+						$result['locations'][$i]['desc'] = $location['address'];
+						$result['locations'][$i]['category'] = $location['label'];
+						$i++;
+					}
+				}
 			}
 		}else{
 			$result = array( 'Status' => 'Error: No api key given' );	

@@ -3,6 +3,7 @@ var govOutsideWidget = {};
 
 	thisApp = this;
 
+	this.host = location.host;
 	this.target = document.getElementById('go-root');
 	this.map = null;
 	this.markers = [];
@@ -76,7 +77,7 @@ var govOutsideWidget = {};
 				}
 			}
 		}
-		xmlhttp.open('GET', '../test/endpoint.php', true);
+		xmlhttp.open('GET', '//' + this.host + '/test/endpoint.php', true);
 		xmlhttp.send();
 	}
 
@@ -165,7 +166,8 @@ var govOutsideWidget = {};
 			var marker = new google.maps.Marker({
 				position: latlng,
 				map: this.map,
-				title: location.title
+				title: location.title,
+				icon: this.getIcon('//' + this.host + '/assets/images/icons/green.png', 47, 61)
 
 			});
 			marker.location_index = i;
@@ -182,6 +184,16 @@ var govOutsideWidget = {};
 		}
 		this.map.fitBounds(bounds);
 		this.map.panToBounds(bounds);
+	}
+
+	this.getIcon = function(fileUrl, width, height) {
+		return new google.maps.MarkerImage(
+			fileUrl,
+			null,
+			null,
+			null,
+			new google.maps.Size(width, height)
+		);
 	}
 
 	this.populateTopbar = function() {

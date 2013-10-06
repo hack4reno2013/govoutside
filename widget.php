@@ -6,7 +6,10 @@
 		<script type="text/javascript">
 
 		(function(d, script) {
-			var go_api_key = '1234';
+			<?php
+			$api_key = (isset($_GET['api_key'])) ? $_GET['api_key'] : null;
+			?>
+			var go_api_key = '<?php echo $api_key; ?>';
 			script = d.createElement('script');
 			script.type = 'text/javascript';
 			script.async = true;

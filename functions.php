@@ -103,17 +103,21 @@ class govOutSide {
 			}
 				if($field['type']!=='textarea' && $field['type']!=='select' && $field['type']!=='color_picker'){
 					$output.= '<div class="input-container">';
+					if($field['label']!==false && $field['label']!==''){
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
+					}
 						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="'.$value.'" id="'.$mid.'" class="form_'.$field['type'].' '.$customClass.' input" />';
 					$output.= '</div>';
 				}else
 				if($field['type']=='select'){
 					$output.= '<div class="input-container">';
+					if($field['label']!==false && $field['label']!==''){
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
+					}
 						$output.= '<select name="'.$field['name'].'"  id="'.$mid.'" class="form_'.$field['type'].' '.$customClass.' input">';
 							$output.= '<option value="0">'.$field['first_option'].'</option>';
 							if(count($field['options'])>0){
@@ -127,9 +131,11 @@ class govOutSide {
 				if($field['type'] == 'color_picker'){
 					if($value=='') $value = '#0000ff';
 					$output.= '<div class="input-container">';
+					if($field['label']!==false && $field['label']!==''){
 						$output.= '<label for="'.$field['name'].'">'.$field['label'];
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
+					}
 						$output.= '<div id="'.$mid.'"><div style="background-color:'.$value.';"></div></div>';	
 						$output.= '<input type="hidden" name="'.$field['name'].'" value="'.$value.'" id="color_input" class="form_'.$field['type'].' '.$customClass.' input" />';
 					$output.= '</div>';					

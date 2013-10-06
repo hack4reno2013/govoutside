@@ -16,7 +16,7 @@
 			script.onload = function(){
 				govOutsideWidget.init(go_api_key);
 			};
-			script.src = 'assets/scripts/widget.js';
+			script.src = 'http://govoutside.com/assets/scripts/widget.min.js';
 			d.getElementsByTagName('head')[0].appendChild(script);
 		}(document));
 

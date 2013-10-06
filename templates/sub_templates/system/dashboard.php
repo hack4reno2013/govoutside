@@ -14,9 +14,14 @@
     <div id="categories-area">
         <?php
         $categories = $this->getCategories();
+        if($categories == false){
+        ?>
+        <div>To start please create at least one category</div>
+        <?php
+        }
         foreach($categories as $category){
         ?>
-        <div class="category" style="background-color:<?=$category['color']?>;"><?=$category['label']?></div>
+        <div class="category" style="background-color:<?=$category['color']?>;" data-id="<?=$category['catid']?>"><?=$category['label']?></div>
         <?php
         }
         ?>
@@ -29,6 +34,9 @@
         ?>
     </div>
     <h2>Locations</h2>
+    <?php
+        if($categories){
+    ?>
     <h3>Add Location</h3>
     <div id="locations-edit-area" class="rwmb-map-field">
         <div id="location-map-area">
@@ -45,5 +53,8 @@
         </div>
         <div class="clear"></div>
     </div>
+    <?php
+        }
+    ?>
 </div>
 		<script type="text/javascript" src="assets/scripts/main.js"></script>

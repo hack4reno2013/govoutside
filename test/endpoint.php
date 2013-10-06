@@ -25,21 +25,21 @@ $output = array(
 			'title' => 'Barbara Bennett Park',
 			'lat' => 39.523335,
 			'lng' => -119.818062,
-			'desc' => '<b>Barbara Bennett Park</b><br />400 Island Ave, Reno, NV 89501',
+			'desc' => '400 Island Ave, Reno, NV 89501',
 			'category' => 'parks'
 		),
 		array(
 			'title' => 'Bicentennial Park',
 			'lat' => 39.524273,
 			'lng' => -119.818642,
-			'desc' => '<b>Bicentennial Park</b><br />10 Ralston St, Reno, NV 89503',
+			'desc' => '10 Ralston St, Reno, NV 89503',
 			'category' => 'parks'
 		),
 		array(
 			'title' => 'Billinghurst Park & Fields',
 			'lat' => 39.522270,
 			'lng' => -119.894142,
-			'desc' => '<b>Billinghurst Park & Fields</b><br />6605 Chesterfield Ln, Reno, NV 89523',
+			'desc' => '6605 Chesterfield Ln, Reno, NV 89523',
 			'category' => 'trails'
 		)
 	)

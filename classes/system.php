@@ -66,7 +66,8 @@ class System extends govOutSide {
 	}
 	
 	function logout() {
-		$this->registered_classes['Users']->logout();
+		$_SESSION['user'] = '';
+		die("<script> window.location = '".$this->config['base_url']."'; </script>");
 	}
 	
 	function getFormFields($type){
@@ -157,11 +158,6 @@ class System extends govOutSide {
 		include(dirname(__FILE__) . '/../templates/sub_templates/system/dashboard.php');
 	}
 	
-	function ajax() {
-		
-		die();
-	}
-	
 	function handleCategoryInput($data) {
 		$query = 'REPLACE INTO categories (catid, uid,label,color) VALUES (
 			"'.$data['catid'].'",
@@ -174,7 +170,7 @@ class System extends govOutSide {
 	}
 
 	function handleLocationInput($data) {
-		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,lat,lon,type,active) VALUES (
+		$query = 'REPLACE INTO locations (lid,uid,catid,parentid,name,address,lat,lon,type,active) VALUES (
 			"'.$data['lid'].'",
 			"'.$data['uid'].'",
 			"'.$data['catid'].'",

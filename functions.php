@@ -219,7 +219,7 @@ class govOutSide {
 		$is_logged = $this->isLoggedIn();
 		if($templateInfo['login_required']==true){
 			if($is_logged == false){
-				die('<script> window.location = window.location; </script>');
+				die('<script> window.location = "'.$this->config['base_url'].'"; </script>');
 			}
 		}else{
 			if($is_logged == true && $templateInfo['name']!=='error' && $templateInfo['name']!=='ajax'){

@@ -50,7 +50,7 @@ class Ajax extends govOutSide {
 		if(!isset($data[0])){
 			return false;	
 		}
-		
+		$this->user_id = $data[0]['uid'];
 		return $data;
 	}
 

@@ -92,7 +92,7 @@ class Ajax extends govOutSide {
 						$result['locations'][$i]['lng'] = $location['lon'];
 						$average_lng = $location['lon'] + $average_lng;
 						$result['locations'][$i]['desc'] = $location['address'];
-						$result['locations'][$i]['category'] = $location['label'];
+						$result['locations'][$i]['category'] = str_replace(array(' ',''),array('_','-'), $location['label']);
 						$i++;
 					}
 				$result['init']['center']['lat'] = $average_lat/count($locations);

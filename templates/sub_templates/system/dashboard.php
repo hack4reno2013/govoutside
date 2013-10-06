@@ -38,19 +38,11 @@
         if($categories){
     ?>
     <h3>Add Location</h3>
-    <div id="locations-edit-area">
+    <div id="locations-edit-area" class="rwmb-map-field">
         <div id="location-map-area">
             <div style="width: 450px; height: 300px;">
-                <div class="rwmb-map-field" style="width: 100%; height: 100%;">
                     <div class="rwmb-map-canvas" style="width: 100%; height: 100%;">
                     </div>
-                    <input type="text" name="latitude" class="rwmb-map-latitude" value="" />
-                    <br />
-                    <input type="text" name="longitude" class="rwmb-map-longitude" value="" />
-                    <br />
-                    <input type="text" name="address" id="address-input" />
-                    <button class="button rwmb-map-goto-address-button" type="button" value="address-input">Find Address</button>
-                </div>
             </div>
         </div>
         <div id="location-form-area">

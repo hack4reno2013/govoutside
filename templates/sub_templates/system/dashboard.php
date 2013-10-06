@@ -16,7 +16,7 @@
         $categories = $this->getCategories();
         foreach($categories as $category){
         ?>
-        <div class="category" style="background-color:<?=$category['color']?>;"><?=$category['label']?></div>
+        <div class="category" style="background-color:<?=$category['color']?>;" data-id="<?=$category['catid']?>"><?=$category['label']?></div>
         <?php
         }
         ?>

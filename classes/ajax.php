@@ -113,7 +113,7 @@ class Ajax extends govOutSide {
 			$action = $_GET['action'];
 		}
 		$this->registered_classes = $registered_classes;
-		$this->user_id = $this->registered_classes['Users']->isLoggedIn();
+		//$this->user_id = $this->registered_classes['Users']->isLoggedIn();
 		return $this->$action();
 	}
 

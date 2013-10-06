@@ -148,6 +148,21 @@ class System extends govOutSide {
 			}
 		}
 		
+		if(isset($_GET['delete'])){
+			if(isset($_GET['type'])){
+				$type = $_GET['type'];	
+				if($type == 'location'){
+					$type = 'locations';	
+					$column = 'lid';
+				}
+				else{
+					$type = 'categories';	
+					$column = 'catid';
+				}
+			}
+			$results = $this->handleDelete($type, $column, $_GET['id']);
+		}
+		
 		if(isset($_GET['action'])){
 			$action = $_GET['action'];
 		}
@@ -168,6 +183,7 @@ class System extends govOutSide {
 			"'.$data['color'].'"
 		)';
 		$results = mysql_query($query)or die(mysql_error());
+		die('<script> window.location = "'.$this->config['base_url'].'?view=system"; </script>');
 	}
 
 	function handleLocationInput($data) {
@@ -184,6 +200,14 @@ class System extends govOutSide {
 			"'.$data['active'].'"
 		)';
 		$results = mysql_query($query)or die(mysql_error());
+		die('<script> window.location = "'.$this->config['base_url'].'?view=system"; </script>');
+	}
+	
+	function handleDelete($table, $column, $id){
+		$query = 'DELETE FROM '.$table.' WHERE '.$column.'="'.$id.'";';
+		
+		$results = mysql_query($query)or die(mysql_error());
+		die('<script> window.location = "'.$this->config['base_url'].'?view=system"; </script>');
 	}
 
 }

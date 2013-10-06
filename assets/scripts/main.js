@@ -26,6 +26,7 @@
 				$('#categories_form #color').val(color);
 				$('#categories_form #field_3').val(id);
 				$('#categories_form .submit').val('Edit');
+				$('#categories_form .submit').after('<a class="button delete" href="?view=system&type=category&id='+id+'&delete=true">Delete</a>');
 		});
 	}
 )(jQuery);

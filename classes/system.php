@@ -11,7 +11,7 @@ class System extends govOutSide {
 		return true;	
 	}
 	
-	public function getCategories() {
+	function getCategories() {
 		$query = 'SELECT * FROM categories WHERE `uid` = "'.$this->user_id.'"';
 		$results = mysql_query($query)or die(mysql_error());
 		
@@ -174,7 +174,7 @@ class System extends govOutSide {
 	}
 
 	function handleLocationInput($data) {
-		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,city,state,zip,lat,lon,type,active) VALUES (
+		$query = 'REPLACE INTO locations (lid,uid,catid,iconid,parentid,name,address,lat,lon,type,active) VALUES (
 			"'.$data['lid'].'",
 			"'.$data['uid'].'",
 			"'.$data['catid'].'",
@@ -182,9 +182,6 @@ class System extends govOutSide {
 			"'.$data['parentid'].'",
 			"'.$data['name'].'",
 			"'.$data['address'].'",
-			"'.$data['city'].'",
-			"'.$data['state'].'",
-			"'.$data['zip'].'",
 			"'.$data['lat'].'",
 			"'.$data['lon'].'",
 			"'.$data['type'].'",

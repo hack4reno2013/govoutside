@@ -44,8 +44,7 @@ class System extends govOutSide {
 					9 => array( 'label' => 'Lat (will be hidden)', 'name' => 'lat', 'type' => 'text', 'value' => '', 'required' => true ),
 					10 => array( 'label' => 'Long (will be hidden)', 'name' => 'lon', 'type' => 'text', 'value' => '', 'required' => true ),
 					11 => array( 'label' => '', 'name' => 'type', 'type' => 'hidden', 'value' => '', 'required' => false ),
-					12 => array( 'label' => '', 'name' => 'active', 'type' => 'hidden', 'value' => '', 'required' => false ),
-					13 => array( 'label' => '', 'name' => '', 'type' => 'text', 'value' => '', 'required' => false ),
+					12 => array( 'label' => '', 'name' => 'active', 'type' => 'hidden', 'value' => '', 'required' => false )
 				);
 			break;	
 			case 'categories':

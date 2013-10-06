@@ -70,7 +70,7 @@ class Ajax extends govOutSide {
 				$result['init']['zoom'] = 8;
 				$result['init']['center']['lat'] = 8;
 				$result['init']['center']['lng'] = 8;
-				if(count($categories)>0){
+				if($categories && count($categories)>0){
 					$i = 0;
 					foreach($categories as $category){
 						$result['categories'][$i]['slug'] = str_replace(array(' ',''),array('_','-'), $category['label']);
@@ -79,8 +79,11 @@ class Ajax extends govOutSide {
 						$i++;
 					}
 				}
+				else {
+					$result['categories'] = array();
+				}
 				
-				if(count($locations)>0){
+				if($locations && count($locations)>0){
 					$i=0;
 					foreach($locations as $location){
 						$result['locations'][$i]['title'] = $location['name'];
@@ -90,6 +93,9 @@ class Ajax extends govOutSide {
 						$result['locations'][$i]['category'] = $location['label'];
 						$i++;
 					}
+				}
+				else {
+					$result['locations'] = array();
 				}
 			}
 		}else{

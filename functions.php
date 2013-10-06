@@ -111,10 +111,10 @@ class govOutSide {
 						if($field['required']==true) $output.= '<div class="required_field">*</div>';
 						$output.= '</label>';
 						$output.= '<select name="'.$field['name'].'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input">';
-							$output.= '<option value="0">Select a Category</option>';
+							$output.= '<option value="0">'.$field['first_option'].'</option>';
 							if(count($field['options'])){
 								foreach($field['options'] as $option){
-									$output.= '<option value=""></option>';	
+									$output.= '<option value="'.$option['catid'].'">'.$option['label'].'</option>';	
 								}
 							}
 						$output.= '</select>';

@@ -6,6 +6,7 @@ class govOutSide {
 	var $users_core;
 	var $config;
 	var $messages = array();
+	var $registered_classes = array();
 	function __construct() {
 		$this->config = config();
 		//init functions like connect to database and running anything we need upon start
@@ -84,7 +85,47 @@ class govOutSide {
 		return $output;
 	}
 	
-	public function isLoggedIn() {
+	public function formOutput($form_fields){
+		$output = '';
+		$i=0;
+		foreach($form_fields as $field){
+			$value = '';
+			if(isset($field['value'])){
+				$value = $field['value'];	
+			}
+			$customClass = '';
+			if(isset($field['class'])){
+				$customClass = $field['class'];	
+			}
+				if($field['type']!=='textarea' || $field['type']!=='select'){
+					$output.= '<div class="input-container">';
+						$output.= '<label for="'.$field['name'].'">'.$field['label'];
+						if($field['required']==true) $output.= '<div class="required_field">*</div>';
+						$output.= '</label>';
+						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="'.$value.'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input" />';
+					$output.= '</div>';
+				}
+				if($field['type']=='select'){
+					$output.= '<div class="input-container">';
+						$output.= '<label for="'.$field['name'].'">'.$field['label'];
+						if($field['required']==true) $output.= '<div class="required_field">*</div>';
+						$output.= '</label>';
+						$output.= '<select name="'.$field['name'].'" id="field_'.$i.'" class="form_'.$field['type'].' '.$customClass.' input">';
+							$output.= '<option value="0">Select a Category</option>';
+							if(count($field['options'])){
+								foreach($field['options'] as $option){
+									$output.= '<option value=""></option>';	
+								}
+							}
+						$output.= '</select>';
+					$output.= '</div>';
+				}
+			$i++;
+		}	
+		return $output;
+	}
+	
+	public function isLoggedIn() { // also could be called getUserId
 		if(!empty($_SESSION['user']['uid'])){
 			return $_SESSION['user']['uid'];
 		}else{
@@ -136,11 +177,10 @@ class govOutSide {
 	
 	public function renderTemplate($templateInfo) {
 		$classes = $this->getClasses();
-		$registered_classes = array();
 		foreach($classes as $class){
 			$methodVariable = array(&$registered_classes[$class['name']], 'check');
 			if(!is_callable($methodVariable)) {
-				$registered_classes[$class['name']] = $this->registerBaseClasses($class['name']);
+				$this->registered_classes[$class['name']] = $this->registerBaseClasses($class['name']);
 			}
 		}
 		//does the template require a login?

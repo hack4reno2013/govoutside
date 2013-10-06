@@ -37,20 +37,7 @@ class Users extends govOutSide {
 			break;
 		}
 	}
-	
-	function formOutput($form_fields){
-		$output = '';
-		foreach($form_fields as $field){
-					$output.= '<div class="input-container">';
-						$output.= '<label for="'.$field['name'].'">'.$field['label'];
-						if($field['required']==true) $output.= '<div class="required_field">*</div>';
-						$output.= '</label>';
-						$output.= '<input type="'.$field['type'].'" name="'.$field['name'].'" value="" class="form_'.$field['type'].' input" />';
-					$output.= '</div>';
-		}	
-		return $output;
-	}
-	
+		
 	function renderAction() {
 		//check if they are logged in and route them out of here!
 		if(!empty($this->user['uid'])){
@@ -87,7 +74,7 @@ class Users extends govOutSide {
 				$form_fields = $this->getFormFields('login');
 				$fieldsCount = count($form_fields);
 				if($fieldsCount > 0){
-					$output.= $this->formOutput($form_fields);
+					$output.= parent::formOutput($form_fields);
 				}
 			$output.= '<input type="submit" class="submit" value="Submit" />';
 			$output.= '</div><div class="register_button"><a href="'.$this->config['base_url'].'?view=users&action=register">Register an Account</a></div></form>';
@@ -142,12 +129,18 @@ class Users extends govOutSide {
 				$form_fields = $this->getFormFields('register');
 				$fieldsCount = count($form_fields);
 				if($fieldsCount > 0){
-					$output.= $this->formOutput($form_fields);
+					$output.= parent::formOutput($form_fields);
 				}
 			$output.= '<input type="submit" class="submit" value="Submit" />';
 			$output.= '</div><div class="register_button"><a href="'.$this->config['base_url'].'?view=users&action=login">Login</a></div></form>';
 		return $output;
 		
+	}
+	
+	function logout() {
+				$_SESSION['user'] = '';
+				$_SESSION['message'][] = '<a href="'.$this->config['base_url'].'?view=users&action=logout">You have now logged out! Please come back soon.</a>';
+				header('Location: '. $this->config['base_url']);
 	}
 	
 	function checkIsEmail($requestEmail) {

@@ -1,5 +1,9 @@
 <?php
-$users_core = $registered_classes['Users'];
+
+$users_core = $this->registered_classes['Users'];
+$action = 'Login';
+	if(isset($_GET['action']))
+	$action = $_GET['action'];
 ?>
             <div id="sub-logo-area">
                 <img src="assets/img/logo_lg.png" id="logo-sm" />
